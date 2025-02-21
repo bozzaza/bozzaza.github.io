@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>recs + bozzas nigporium</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet);
+            background-size: 400% 400%;
+            animation: bgAnimation 10s infinite linear;
+        }
+        
+        @keyframes bgAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .falling-image {
+            position: absolute;
+            top: -50px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const imageSrc = 'res/ripnm.png';
+        
+        function createFallingImage() {
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.classList.add('falling-image');
+            
+            const size = Math.random() * 40 + 10;
+            img.style.width = `${size}px`;
+            img.style.height = `${size}px`;
+            img.style.left = `${Math.random() * window.innerWidth}px`;
+            
+            document.body.appendChild(img);
+            
+            let topPos = -50;
+            const speed = Math.random() * 3 + 1;
+            
+            function fall() {
+                topPos += speed;
+                img.style.top = `${topPos}px`;
+                
+                if (topPos < window.innerHeight) {
+                    requestAnimationFrame(fall);
+                } else {
+                    img.remove();
+                }
+            }
+            
+            fall();
+        }
+        
+        setInterval(createFallingImage, 200);
+    </script>
+</body>
+</html>
