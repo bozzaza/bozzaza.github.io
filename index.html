@@ -26,11 +26,20 @@
       .falling-image {
         position: absolute;
         top: -50px;
-        pointer-events: none;
+        pointer-events: auto;
+      }
+
+      h1 {
+        padding-left: 32px;
+        font-family: "Comic Sans MS";
+        font-size: 48px;
+        color: violet;
+        -webkit-text-stroke: 3px black;
       }
     </style>
   </head>
   <body>
+    <h1 id="nigs-nogged">0</h1>
     <script>
       const imageSources = [
         "res/black/ripnm.png",
@@ -48,6 +57,8 @@
           imageSources[Math.floor(Math.random() * imageSources.length)];
       }, 50);
 
+      let NigsNogged = 0;
+
       function createFallingImage() {
         const img = document.createElement("img");
         img.src = imageSrc;
@@ -57,10 +68,17 @@
         img.style.width = `${size}px`;
         img.style.height = `${size}px`;
         img.style.left = `${Math.random() * window.innerWidth}px`;
+        img.style.top = "0px";
+
+        img.addEventListener("click", () => {
+          NigsNogged++;
+          nogging();
+          img.remove();
+        });
 
         document.body.appendChild(img);
 
-        let topPos = -50;
+        let topPos = 0;
         const speed = Math.random() * 3 + 1;
 
         function fall() {
@@ -75,6 +93,9 @@
         }
 
         fall();
+        function nogging() {
+          document.getElementById("nigs-nogged").innerText = NigsNogged;
+        }
       }
 
       setInterval(createFallingImage, 600);
