@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>recs + bozzas nigporium</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet);
-            background-size: 400% 400%;
-            animation: bgAnimation 10s infinite linear;
-        }
-        
-        @keyframes bgAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .falling-image {
-            position: absolute;
-            top: -50px;
-            pointer-events: none;
-        }
+      body {
+        background: url("res/logo/mashallah.png"),
+          linear-gradient(
+            90deg,
+            red,
+            orange,
+            yellow,
+            green,
+            blue,
+            purple,
+            violet
+          );
+        background-size: 50%, 100%;
+        background-repeat: no-repeat, repeat;
+        background-position: center;
+        background-position-y: 100px;
+      }
+
+      .falling-image {
+        position: absolute;
+        top: -50px;
+        pointer-events: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-        const imageSrc = 'res/ripnm.png';
-        
-        function createFallingImage() {
-            const img = document.createElement('img');
-            img.src = imageSrc;
-            img.classList.add('falling-image');
-            
-            const size = Math.random() * 160 + 10;
-            img.style.width = `${size}px`;
-            img.style.height = `${size}px`;
-            img.style.left = `${Math.random() * window.innerWidth}px`;
-            
-            document.body.appendChild(img);
-            
-            let topPos = -50;
-            const speed = Math.random() * 3 + 1;
-            
-            function fall() {
-                topPos += speed;
-                img.style.top = `${topPos}px`;
-                
-                if (topPos < window.innerHeight) {
-                    requestAnimationFrame(fall);
-                } else {
-                    img.remove();
-                }
-            }
-            
-            fall();
+      const imageSources = [
+        "res/black/ripnm.png",
+        "res/black/mogger.png",
+        "res/black/mirror.png",
+        "res/black/soyjak.png",
+        "res/black/cornyahh.png",
+      ];
+
+      let imageSrc =
+        imageSources[Math.floor(Math.random() * imageSources.length)];
+
+      setInterval(() => {
+        imageSrc =
+          imageSources[Math.floor(Math.random() * imageSources.length)];
+      }, 50);
+
+      function createFallingImage() {
+        const img = document.createElement("img");
+        img.src = imageSrc;
+        img.classList.add("falling-image");
+
+        const size = Math.random() * 100 + 40;
+        img.style.width = `${size}px`;
+        img.style.height = `${size}px`;
+        img.style.left = `${Math.random() * window.innerWidth}px`;
+
+        document.body.appendChild(img);
+
+        let topPos = -50;
+        const speed = Math.random() * 3 + 1;
+
+        function fall() {
+          topPos += speed;
+          img.style.top = `${topPos}px`;
+
+          if (topPos < window.innerHeight - 150) {
+            requestAnimationFrame(fall);
+          } else {
+            img.remove();
+          }
         }
-        
-        setInterval(createFallingImage, 200);
+
+        fall();
+      }
+
+      setInterval(createFallingImage, 600);
     </script>
-</body>
+  </body>
 </html>
