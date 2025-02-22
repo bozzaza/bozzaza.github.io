@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Finder</title>
+    <style>
+        /* Dark mode variables */
+        :root {
+            --background-color: #121212;
+            --text-color: #ffffff;
+            --card-background: #1e1e1e;
+            --card-border: #333333;
+            --accent-color: #bb86fc;
+            --input-background: #333333;
+            --input-text: #ffffff;
+        }
+
+        /* Light mode variables */
+        [data-theme="light"] {
+            --background-color: #ffffff;
+            --text-color: #000000;
+            --card-background: #f5f5f5;
+            --card-border: #cccccc;
+            --accent-color: #6200ee;
+            --input-background: #f5f5f5;
+            --input-text: #000000;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .filter-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-controls input {
+            padding: 10px;
+            border: 1px solid var(--card-border);
+            border-radius: 5px;
+            background-color: var(--input-background);
+            color: var(--input-text);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .filter-controls button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--accent-color);
+            color: white;
+            cursor: pointer;
+        }
+
+        .filter-controls button:hover {
+            opacity: 0.9;
+        }
+
+        #results {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .monster-card {
+            border: 1px solid var(--card-border);
+            border-radius: 5px;
+            padding: 15px;
+            background-color: var(--card-background);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .monster-card h3 {
+            margin: 0;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .monster-card p {
+            margin: 5px 0;
+            cursor: pointer;
+            color: var(--accent-color);
+        }
+
+        .suggestions {
+            position: absolute;
+            background-color: var(--card-background);
+            border: 1px solid var(--card-border);
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1000;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+        }
+
+        .suggestions div {
+            padding: 10px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .suggestions div:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        .popup ul {
+            padding-left: 20px;
+        }
+
+        .popup button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--accent-color);
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        @media (min-width: 600px) {
+            .monster-card {
+                width: calc(50% - 10px);
+            }
+        }
+
+        @media (min-width: 900px) {
+            .monster-card {
+                width: calc(33.333% - 14px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Monster Finder</h1>
+    <div class="filter-controls">
+        <input type="text" id="island" name="island" placeholder="Enter island..." autocomplete="off">
+        <div class="suggestions" id="islandSuggestions"></div>
+
+        <input type="text" id="monster" name="monster" placeholder="Enter monster..." autocomplete="off">
+        <div class="suggestions" id="monsterSuggestions"></div>
+
+        <input type="text" id="monster1" name="monster1" placeholder="Enter monster 1..." autocomplete="off">
+        <div class="suggestions" id="monster1Suggestions"></div>
+
+        <input type="text" id="monster2" name="monster2" placeholder="Enter monster 2..." autocomplete="off">
+        <div class="suggestions" id="monster2Suggestions"></div>
+
+        <button type="button" id="searchButton">Search</button>
+        <button type="button" id="clearFilters">Clear Filters</button>
+    </div>
+
+    <div id="results"></div>
+
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+
+    <!-- Popup -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <h2>Update Log</h2>
+        <ul>
+            <li>hi bozza</li>
+            <li>this is my autist shit</li>
+            <li>lemme just host this pls</li>
+            <li>thxxxx</li>
+        </ul>
+        <button id="closePopup">Got it!</button>
+    </div>
+
+    <script>
+        let allMonsters = [];
+        let currentTheme = 'dark';
+
+        // Function to load and parse the CSV file
+        async function loadCSV() {
+            const response = await fetch('a.csv'); // Path to your CSV file
+            const data = await response.text();
+            const rows = data.split('\n').slice(1); // Remove header row
+            return rows.map(row => {
+                const [name, island, monster1, monster2] = row.split(',');
+                return { name, island, monster1, monster2 };
+            });
+        }
+
+        // Function to filter monsters based on user input
+        function filterMonsters(monsters, filters) {
+            return monsters.filter(monster => {
+                return (
+                    (!filters.island || monster.island.toLowerCase().includes(filters.island.toLowerCase())) &&
+                    (!filters.monster || monster.name.toLowerCase().includes(filters.monster.toLowerCase())) &&
+                    (!filters.monster1 || monster.monster1.toLowerCase().includes(filters.monster1.toLowerCase())) &&
+                    (!filters.monster2 || monster.monster2.toLowerCase().includes(filters.monster2.toLowerCase()))
+                );
+            });
+        }
+
+        // Function to display monsters
+        function displayMonsters(monsters) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            if (monsters.length === 0) {
+                resultsDiv.innerHTML = '<p>No monsters found.</p>';
+                return;
+            }
+
+            monsters.forEach(monster => {
+                const card = document.createElement('div');
+                card.className = 'monster-card';
+                card.innerHTML = `
+                    <h3>${monster.name}</h3>
+                    <p><strong>Island:</strong> ${monster.island}</p>
+                    <p><strong>Monster 1:</strong> ${monster.monster1}</p>
+                    <p><strong>Monster 2:</strong> ${monster.monster2}</p>
+                `;
+
+                // Add click event to Monster 1
+                card.querySelector('p:nth-of-type(2)').addEventListener('click', () => {
+                    clearFilters();
+                    document.getElementById('monster').value = monster.monster1;
+                    document.getElementById('island').value = monster.island;
+                    simulateSearch();
+                });
+
+                // Add click event to Monster 2
+                card.querySelector('p:nth-of-type(3)').addEventListener('click', () => {
+                    clearFilters();
+                    document.getElementById('monster').value = monster.monster2;
+                    document.getElementById('island').value = monster.island;
+                    simulateSearch();
+                });
+
+                // Add click event to Island
+                card.querySelector('p:nth-of-type(1)').addEventListener('click', () => {
+                    clearFilters();
+                    document.getElementById('island').value = monster.island;
+                    simulateSearch();
+                });
+
+                // Add click event to Monster Name
+                card.querySelector('h3').addEventListener('click', () => {
+                    clearFilters();
+                    document.getElementById('monster').value = monster.name;
+                    simulateSearch();
+                });
+
+                resultsDiv.appendChild(card);
+            });
+        }
+
+        // Function to generate suggestions for autocomplete
+        function generateSuggestions(input, data, suggestionsDiv) {
+            const value = input.value.toLowerCase();
+            const filteredData = data.filter(item => item.toLowerCase().includes(value));
+            suggestionsDiv.innerHTML = filteredData.map(item => `<div>${item}</div>`).join('');
+
+            // Add click event to suggestions
+            suggestionsDiv.querySelectorAll('div').forEach(suggestion => {
+                suggestion.addEventListener('click', () => {
+                    input.value = suggestion.textContent;
+                    suggestionsDiv.innerHTML = '';
+                });
+            });
+
+            // Hide suggestions if the input is empty
+            if (!input.value) {
+                suggestionsDiv.innerHTML = '';
+            }
+        }
+
+        // Function to clear all filters
+        function clearFilters() {
+            document.getElementById('island').value = '';
+            document.getElementById('monster').value = '';
+            document.getElementById('monster1').value = '';
+            document.getElementById('monster2').value = '';
+        }
+
+        // Function to simulate a search
+        function simulateSearch() {
+            const filters = {
+                island: document.getElementById('island').value,
+                monster: document.getElementById('monster').value,
+                monster1: document.getElementById('monster1').value,
+                monster2: document.getElementById('monster2').value
+            };
+
+            const filteredMonsters = filterMonsters(allMonsters, filters);
+            displayMonsters(filteredMonsters);
+        }
+
+        // Function to toggle dark/light mode
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            document.getElementById('themeToggle').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+        }
+
+        // Function to show the popup
+        function showPopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        // Function to hide the popup
+        function hidePopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+            localStorage.setItem('popupSeen', 'true');
+        }
+
+        // Event listeners
+        document.getElementById('searchButton').addEventListener('click', simulateSearch);
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            clearFilters();
+            displayMonsters(allMonsters);
+        });
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        document.getElementById('closePopup').addEventListener('click', hidePopup);
+
+        document.getElementById('island').addEventListener('input', () => {
+            const islands = [...new Set(allMonsters.map(monster => monster.island))];
+            generateSuggestions(document.getElementById('island'), islands, document.getElementById('islandSuggestions'));
+        });
+
+        document.getElementById('monster').addEventListener('input', () => {
+            const monsters = [...new Set(allMonsters.map(monster => monster.name))];
+            generateSuggestions(document.getElementById('monster'), monsters, document.getElementById('monsterSuggestions'));
+        });
+
+        document.getElementById('monster1').addEventListener('input', () => {
+            const monsters = [...new Set(allMonsters.map(monster => monster.monster1))];
+            generateSuggestions(document.getElementById('monster1'), monsters, document.getElementById('monster1Suggestions'));
+        });
+
+        document.getElementById('monster2').addEventListener('input', () => {
+            const monsters = [...new Set(allMonsters.map(monster => monster.monster2))];
+            generateSuggestions(document.getElementById('monster2'), monsters, document.getElementById('monster2Suggestions'));
+        });
+
+        // Load and display all monsters on page load
+        window.addEventListener('load', async () => {
+            allMonsters = await loadCSV();
+            displayMonsters(allMonsters);
+
+            // Show popup if it hasn't been seen before
+            if (!localStorage.getItem('popupSeen')) {
+                showPopup();
+            }
+        });
+    </script>
+</body>
+</html>
