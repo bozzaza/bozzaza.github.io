@@ -100,6 +100,22 @@
             z-index: 10001;
         }
         
+        #SolomonMenu {
+            border: 1px solid #888888;
+            padding: 20px;
+            max-width: 400px;
+            max-height: 600px;
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            background-color: #a9a9a9;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10001;
+        }
+        
         #settingsButton {
             top: 20px;
             right: 20px;
@@ -112,15 +128,13 @@
             position: absolute;
         }
         
-        .settingspicture {
-            background-image: url("res/sitepics/settings.png");
-            background-size: cover;
-            width: 50px;
-            height: 50px;
-            border: 2px solid black;
+        #SolomonButton {
+            top: 140px;
+            right: 20px;
+            position: absolute;
         }
         
-        .pearpicture {
+        .settingspicture {
             background-image: url("res/sitepics/settings.png");
             background-size: cover;
             width: 50px;
@@ -148,6 +162,17 @@
         margin: 0;
         padding: 0;
       "></button>
+
+    <button id="SolomonButton" style="
+        background: url('res/sitepics/solomon.png') no-repeat;
+        background-size: cover;
+        width: 50px;
+        height: 50px;
+        border: 2px solid black;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+      " onclick="window.location.href='solomon.html'"></button>
 
     <div id="PearMenu" style="display: none">
         <img src="res/sitepics/jetneptunepear.png" width="100%" />
@@ -252,6 +277,7 @@
             settingsMenu.style.display =
                 settingsMenu.style.display === "none" ? "block" : "none";
         });
+
         const imageSources = [
             "res/black/ripnm.png",
             "res/black/mogger.png",
