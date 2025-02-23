@@ -234,12 +234,17 @@
         }
       }
 
-      window.onload = function () {
-        DefaultBGM();
-        setInterval(DefaultBGM, 120000);
-        NiggerBGM();
-        setInterval(NiggerBGM, 20000);
-      };
+      let hasClicked = false;
+
+      document.addEventListener("click", function () {
+        if (!hasClicked) {
+          DefaultBGM();
+          setInterval(DefaultBGM, 120000);
+          NiggerBGM();
+          setInterval(NiggerBGM, 20000);
+          hasClicked = true;
+        }
+      });
 
       document.getElementById("NiggerButton").addEventListener("click", () => {
         NiggerSounds = !NiggerSounds;
