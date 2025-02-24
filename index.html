@@ -41,6 +41,17 @@
             margin-top: 0px;
             transform: translateX(-4%);
         }
+        
+        #AutismMenuText {
+            padding-left: 32px;
+            font-family: "Comic Sans MS";
+            font-size: 32px;
+            color: violet;
+            -webkit-text-stroke: 2px black;
+            text-align: center;
+            margin-top: 0px;
+            transform: translateX(-4%);
+        }
         /* Rainbow Button Styles */
         
         .rainbow-button {
@@ -100,7 +111,7 @@
             z-index: 10001;
         }
         
-        #SolomonMenu {
+        #OtherMenu {
             border: 1px solid #888888;
             padding: 20px;
             max-width: 400px;
@@ -128,7 +139,12 @@
             position: absolute;
         }
         
-        #SolomonButton {
+        #FaggotyButtonContainer {
+            padding-left: auto;
+            padding-left: auto;
+        }
+        
+        #OtherButton {
             top: 140px;
             right: 20px;
             position: absolute;
@@ -163,7 +179,7 @@
         padding: 0;
       "></button>
 
-    <button id="SolomonButton" style="
+    <button id="OtherButton" style="
         background: url('res/sitepics/solomon.png') no-repeat;
         background-size: cover;
         width: 50px;
@@ -172,18 +188,25 @@
         cursor: pointer;
         margin: 0;
         padding: 0;
-      " onclick="window.location.href='solomon.html'"></button>
+      "></button>
 
     <div id="PearMenu" style="display: none">
         <img src="res/sitepics/jetneptunepear.png" width="100%" />
     </div>
 
+    <div id="OtherMenu" style="display: none">
+        <h1 id="AutismMenuText">Other Autistic Shit</h1>
+        <div id="FaggotyButtonContainer"><button id="SolomonButton" onclick="window.location.href='solomon.html'">Nigcel Generator!!!</button></div>
+        <div id="FaggotyButtonContainer"><button id="RecAutism0001Button" onclick="window.location.href='msmbg.html'">Msm Guides (random nigger hoosting #1)</button></div>
+        <div id="FaggotyButtonContainer"><button id="PearPageButton" onclick="window.location.href='pear.html'">Pear</button></div>
+    </div>
+
     <h1 id="nigs-nogged">0</h1>
-    <!-- Rainbow Button -->
+    <!-- Rainbow Button
     <button class="rainbow-button" onclick="window.location.href='msmbg.html'">
       Msm Guides (random nigger hoosting #1)
     </button>
-
+-->
     <script>
         let DefaultSounds = localStorage.getItem("DefaultSounds") === "true";
         if (localStorage.getItem("DefaultSounds") === null) {
@@ -218,8 +241,10 @@
             if (DefaultSounds) {
                 button.textContent = "Default Sounds: ✅";
                 new Audio("res/sounds/sigmaboy.mp3").play();
+                new Audio("res/sounds/fishtank.mp3").play();
             } else {
                 button.textContent = "Default Sounds: ❌";
+                new Audio("res/sounds/fishtank.mp3").play();
             }
         });
 
@@ -258,8 +283,10 @@
             if (NiggerSounds) {
                 button.textContent = "Nigger Sounds: ✅";
                 new Audio("res/sounds/niggachain.mp3").play();
+                new Audio("res/sounds/fishtank.mp3").play();
             } else {
                 button.textContent = "Nigger Sounds: ❌";
+                new Audio("res/sounds/fishtank.mp3").play();
             }
         });
 
@@ -267,12 +294,20 @@
             .getElementById("settingsButton")
             .addEventListener("click", () => {
                 const settingsMenu = document.getElementById("settingsMenu");
+                new Audio("res/sounds/fishtank.mp3").play();
                 settingsMenu.style.display =
                     settingsMenu.style.display === "none" ? "block" : "none";
             });
 
         document.getElementById("PearButton").addEventListener("click", () => {
             const settingsMenu = document.getElementById("PearMenu");
+            new Audio("res/sounds/fishtank.mp3").play();
+            settingsMenu.style.display =
+                settingsMenu.style.display === "none" ? "block" : "none";
+        });
+
+        document.getElementById("OtherButton").addEventListener("click", () => {
+            const settingsMenu = document.getElementById("OtherMenu");
             new Audio("res/sounds/fishtank.mp3").play();
             settingsMenu.style.display =
                 settingsMenu.style.display === "none" ? "block" : "none";
