@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Holder Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .canvas-container {
+            position: relative;
+            margin: 0 auto;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            max-width: 100%;
+            display: block;
+        }
+        .controls {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        .value-display {
+            display: inline-block;
+            width: 40px;
+            text-align: right;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .config-area {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .advanced-settings {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .advanced-toggle {
+            background-color: #2196F3;
+        }
+        .advanced-toggle:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flag Holder Generator</h1>
+    <div class="container">
+        <div class="canvas-container">
+            <canvas id="resultCanvas"></canvas>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="countrySelect">Select Country:</label>
+                <select id="countrySelect">
+                    <option value="">Loading countries...</option>
+                </select>
+            </div>
+            
+            <button id="advancedToggle" class="advanced-toggle">Show Advanced Settings</button>
+            
+            <div id="advancedSettings" class="advanced-settings" style="display: none;">
+                <div class="control-group">
+                    <label>Position X: <span id="posXValue" class="value-display">173</span></label>
+                    <input type="range" id="posX" min="-200" max="400" value="173">
+                </div>
+                
+                <div class="control-group">
+                    <label>Position Y: <span id="posYValue" class="value-display">200</span></label>
+                    <input type="range" id="posY" min="-200" max="400" value="200">
+                </div>
+                
+                <div class="control-group">
+                    <label>Scale: <span id="scaleValue" class="value-display">155</span>%</label>
+                    <input type="range" id="scale" min="10" max="400" value="155">
+                </div>
+                
+                <div class="control-group">
+                    <label>Rotation: <span id="rotationValue" class="value-display">55</span>°</label>
+                    <input type="range" id="rotation" min="-180" max="180" value="55">
+                </div>
+                
+                <div class="control-group">
+                    <label>Font Size: <span id="fontSizeValue" class="value-display">48</span>px</label>
+                    <input type="range" id="fontSize" min="10" max="100" value="48">
+                </div>
+                
+                <div>
+                    <button id="saveBtn">Download Image</button>
+                    <button id="copyConfigBtn">Copy Config</button>
+                    <button id="pasteConfigBtn">Paste Config</button>
+                    <button id="resetBtn">Reset to Default</button>
+                </div>
+                
+                <div class="config-area">
+                    <label for="configText">Configuration:</label>
+                    <textarea id="configText" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Canvas setup
+            const canvas = document.getElementById('resultCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Load the base image (person holding blank flag)
+            const baseImage = new Image();
+            baseImage.crossOrigin = 'Anonymous';
+            baseImage.src = 'https://files.catbox.moe/mq4j6i.jpg';
+            
+            // Flag image
+            const flagImage = new Image();
+            let flagLoaded = false;
+            let currentCountryName = "";
+            
+            // Default configuration
+            let config = {
+                posX: 173,
+                posY: 200,
+                scale: 1.55,
+                rotation: 55,
+                fontSize: 48,
+                countryCode: 'us'
+            };
+            
+            // Country data
+            let countries = [];
+            
+            // UI elements
+            const countrySelect = document.getElementById('countrySelect');
+            const posXSlider = document.getElementById('posX');
+            const posYSlider = document.getElementById('posY');
+            const scaleSlider = document.getElementById('scale');
+            const rotationSlider = document.getElementById('rotation');
+            const fontSizeSlider = document.getElementById('fontSize');
+            const posXValue = document.getElementById('posXValue');
+            const posYValue = document.getElementById('posYValue');
+            const scaleValue = document.getElementById('scaleValue');
+            const rotationValue = document.getElementById('rotationValue');
+            const fontSizeValue = document.getElementById('fontSizeValue');
+            const saveBtn = document.getElementById('saveBtn');
+            const copyConfigBtn = document.getElementById('copyConfigBtn');
+            const pasteConfigBtn = document.getElementById('pasteConfigBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const configText = document.getElementById('configText');
+            const advancedSettings = document.getElementById('advancedSettings');
+            const advancedToggle = document.getElementById('advancedToggle');
+            
+            // Initialize canvas when base image loads
+            baseImage.onload = function() {
+                canvas.width = baseImage.width;
+                canvas.height = baseImage.height;
+                loadCountries();
+            };
+            
+            // Toggle advanced settings
+            advancedToggle.addEventListener('click', function() {
+                if (advancedSettings.style.display === 'none') {
+                    advancedSettings.style.display = 'block';
+                    advancedToggle.textContent = 'Hide Advanced Settings';
+                } else {
+                    advancedSettings.style.display = 'none';
+                    advancedToggle.textContent = 'Show Advanced Settings';
+                }
+            });
+            
+            // Load country data from FlagCDN
+            function loadCountries() {
+                fetch('https://flagcdn.com/en/codes.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        countries = Object.entries(data).map(([code, name]) => ({code, name}));
+                        populateCountrySelect();
+                        
+                        // Set default country (US)
+                        const defaultCountry = countries.find(c => c.code === 'us');
+                        if (defaultCountry) {
+                            countrySelect.value = 'us';
+                            currentCountryName = defaultCountry.name;
+                            loadFlagImage('us');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading countries:', error);
+                        countrySelect.innerHTML = '<option value="">Error loading countries</option>';
+                    });
+            }
+            
+            // Populate country dropdown
+            function populateCountrySelect() {
+                countrySelect.innerHTML = '';
+                
+                // Sort countries by name
+                countries.sort((a, b) => a.name.localeCompare(b.name));
+                
+                // Add options
+                countries.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.code;
+                    option.textContent = country.name;
+                    countrySelect.appendChild(option);
+                });
+            }
+            
+            // Handle country selection change
+            countrySelect.addEventListener('change', function() {
+                const countryCode = this.value;
+                if (countryCode) {
+                    config.countryCode = countryCode;
+                    const selectedCountry = countries.find(c => c.code === countryCode);
+                    if (selectedCountry) {
+                        currentCountryName = selectedCountry.name;
+                    }
+                    loadFlagImage(countryCode);
+                }
+            });
+            
+            // Load flag image from FlagCDN
+            function loadFlagImage(countryCode) {
+                flagLoaded = false;
+                flagImage.src = `https://flagcdn.com/w320/${countryCode}.png`;
+                flagImage.onload = function() {
+                    flagLoaded = true;
+                    drawCompositeImage();
+                };
+                flagImage.onerror = function() {
+                    alert('Error loading flag image');
+                };
+            }
+            
+            // Update configuration when sliders change
+            posXSlider.addEventListener('input', updateConfigFromUI);
+            posYSlider.addEventListener('input', updateConfigFromUI);
+            scaleSlider.addEventListener('input', updateConfigFromUI);
+            rotationSlider.addEventListener('input', updateConfigFromUI);
+            fontSizeSlider.addEventListener('input', updateConfigFromUI);
+            
+            // Save image button
+            saveBtn.addEventListener('click', function() {
+                if (!flagLoaded) {
+                    alert('Please select a country first');
+                    return;
+                }
+                
+                const link = document.createElement('a');
+                link.download = `terocylia-supports-${config.countryCode}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+            
+            // Copy config button
+            copyConfigBtn.addEventListener('click', function() {
+                updateConfigText();
+                configText.select();
+                document.execCommand('copy');
+                alert('Configuration copied to clipboard!');
+            });
+            
+            // Paste config button
+            pasteConfigBtn.addEventListener('click', function() {
+                const pasteText = prompt('Paste your configuration:');
+                if (pasteText) {
+                    try {
+                        const parsedConfig = JSON.parse(pasteText);
+                        if (parsedConfig.posX !== undefined && 
+                            parsedConfig.posY !== undefined && 
+                            parsedConfig.scale !== undefined && 
+                            parsedConfig.rotation !== undefined &&
+                            parsedConfig.fontSize !== undefined &&
+                            parsedConfig.countryCode !== undefined) {
+                            
+                            config = parsedConfig;
+                            updateUIFromConfig();
+                            const selectedCountry = countries.find(c => c.code === config.countryCode);
+                            if (selectedCountry) {
+                                currentCountryName = selectedCountry.name;
+                                countrySelect.value = config.countryCode;
+                            }
+                            loadFlagImage(config.countryCode);
+                        } else {
+                            alert('Invalid configuration format');
+                        }
+                    } catch (e) {
+                        alert('Invalid configuration format');
+                    }
+                }
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                config = {
+                    posX: 173,
+                    posY: 200,
+                    scale: 1.55,
+                    rotation: 55,
+                    fontSize: 48,
+                    countryCode: 'us'
+                };
+                updateUIFromConfig();
+                const defaultCountry = countries.find(c => c.code === 'us');
+                if (defaultCountry) {
+                    currentCountryName = defaultCountry.name;
+                    countrySelect.value = 'us';
+                }
+                loadFlagImage('us');
+            });
+            
+            // Update config from UI sliders
+            function updateConfigFromUI() {
+                config.posX = parseInt(posXSlider.value);
+                config.posY = parseInt(posYSlider.value);
+                config.scale = parseInt(scaleSlider.value) / 100;
+                config.rotation = parseInt(rotationSlider.value);
+                config.fontSize = parseInt(fontSizeSlider.value);
+                
+                posXValue.textContent = config.posX;
+                posYValue.textContent = config.posY;
+                scaleValue.textContent = Math.round(config.scale * 100);
+                rotationValue.textContent = config.rotation;
+                fontSizeValue.textContent = config.fontSize;
+                
+                drawCompositeImage();
+            }
+            
+            // Update UI sliders from config
+            function updateUIFromConfig() {
+                posXSlider.value = config.posX;
+                posYSlider.value = config.posY;
+                scaleSlider.value = Math.round(config.scale * 100);
+                rotationSlider.value = config.rotation;
+                fontSizeSlider.value = config.fontSize;
+                
+                posXValue.textContent = config.posX;
+                posYValue.textContent = config.posY;
+                scaleValue.textContent = Math.round(config.scale * 100);
+                rotationValue.textContent = config.rotation;
+                fontSizeValue.textContent = config.fontSize;
+                
+                updateConfigText();
+            }
+            
+            // Update the config text area
+            function updateConfigText() {
+                configText.value = JSON.stringify(config, null, 2);
+            }
+            
+            // Draw the composite image
+            function drawCompositeImage() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw base image
+                ctx.drawImage(baseImage, 0, 0);
+                
+                if (flagLoaded) {
+                    // Save the current context
+                    ctx.save();
+                    
+                    // Move to the center of the flag area (adjust these values based on your image)
+                    const flagCenterX = canvas.width / 2 + 50 + config.posX;
+                    const flagCenterY = canvas.height / 2 - 50 + config.posY;
+                    
+                    // Move to the flag center and apply transformations
+                    ctx.translate(flagCenterX, flagCenterY);
+                    ctx.rotate(config.rotation * Math.PI / 180);
+                    ctx.scale(config.scale, config.scale);
+                    
+                    // Draw the flag image centered
+                    ctx.drawImage(
+                        flagImage, 
+                        -flagImage.width / 2, 
+                        -flagImage.height / 2,
+                        flagImage.width,
+                        flagImage.height
+                    );
+                    
+                    // Restore the context
+                    ctx.restore();
+                    
+                    // Draw the text at the top
+                    ctx.save();
+                    const text = `Terocylia Supports ${currentCountryName}`;
+                    const textX = canvas.width / 2;
+                    const textY = 50;
+                    
+                    // Set font
+                    ctx.font = `bold ${config.fontSize}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    
+                    // Draw black outline
+                    ctx.lineWidth = 8;
+                    ctx.strokeStyle = 'black';
+                    ctx.strokeText(text, textX, textY);
+                    
+                    // Draw white text
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(text, textX, textY);
+                    
+                    ctx.restore();
+                }
+                
+                updateConfigText();
+            }
+            
+            // Initialize
+            updateConfigFromUI();
+        });
+    </script>
+</body>
+</html>
