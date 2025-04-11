@@ -1,174 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>recs + bozzas nigporium</title>
     <style>
-        body {
-            background: url("res/sitepics/mashallah.png"), linear-gradient( 90deg, #ff8989, #ffb56b, #ffea75, #b7f774, #64dbff, #769fff, #a37bff);
-            background-size: 50%, 100%;
-            background-repeat: no-repeat, repeat;
-            background-position: center;
-            background-position-y: 100px;
-        }
-        
-        .falling-image {
-            position: absolute;
-            top: -50px;
-            pointer-events: auto;
-        }
-        
-        #nigs-nogged {
-            padding-left: 32px;
-            font-family: "Comic Sans MS";
-            font-size: 48px;
-            color: violet;
-            -webkit-text-stroke: 3px black;
-            top: 0px;
-            left: 16px;
-            position: fixed;
-        }
-        
-        #settingstextomgthisshitisbeingsoretarded {
-            padding-left: 32px;
-            font-family: "Comic Sans MS";
-            font-size: 48px;
-            color: violet;
-            -webkit-text-stroke: 3px black;
-            text-align: center;
-            margin-top: 0px;
-            transform: translateX(-4%);
-        }
-        
-        #AutismMenuText {
-            padding-left: 32px;
-            font-family: "Comic Sans MS";
-            font-size: 32px;
-            color: violet;
-            -webkit-text-stroke: 2px black;
-            text-align: center;
-            margin-top: 0px;
-            transform: translateX(-4%);
-        }
-        /* Rainbow Button Styles */
-        
-        .rainbow-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-family: "Comic Sans MS", cursive;
-            color: white;
-            background: linear-gradient( 90deg, red, orange, yellow, green, blue, purple, violet);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .rainbow-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .rainbow-button:active {
-            transform: scale(0.95);
-        }
-        
-        #settingsMenu {
-            border: 1px solid #888888;
-            padding: 20px;
-            max-width: 400px;
-            max-height: 600px;
-            width: 50%;
-            height: 50%;
-            text-align: center;
-            background-color: #a9a9a9;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10000;
-        }
-        
-        #PearMenu {
-            border: 1px solid #888888;
-            padding: 20px;
-            max-width: 400px;
-            max-height: 600px;
-            width: 50%;
-            height: 50%;
-            text-align: center;
-            background-color: #a9a9a9;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10001;
-        }
-        
-        #OtherMenu {
-            border: 1px solid #888888;
-            padding: 20px;
-            max-width: 400px;
-            max-height: 600px;
-            width: 50%;
-            height: 50%;
-            text-align: center;
-            background-color: #a9a9a9;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10001;
-        }
-        
-        #settingsButton {
-            top: 20px;
-            right: 20px;
-            position: absolute;
-        }
-        
-        #PearButton {
-            top: 80px;
-            right: 20px;
-            position: absolute;
-        }
-        
-        #FaggotyButtonContainer {
-            padding-left: auto;
-            padding-left: auto;
-        }
-        
-        #OtherButton {
-            top: 140px;
-            right: 20px;
-            position: absolute;
-        }
-        
-        .settingspicture {
-            background-image: url("res/sitepics/settings.png");
-            background-size: cover;
-            width: 50px;
-            height: 50px;
-            border: 2px solid black;
-        }
-    </style>
-</head>
+      body {
+        background: url("res/sitepics/mashallah.png"),
+          linear-gradient(
+            90deg,
+            #ff8989,
+            #ffb56b,
+            #ffea75,
+            #b7f774,
+            #64dbff,
+            #769fff,
+            #a37bff
+          );
+        background-size: 50%, 100%;
+        background-repeat: no-repeat, repeat;
+        background-position: center;
+        background-position-y: 100px;
+      }
 
-<body>
+      .falling-image {
+        position: absolute;
+        top: -50px;
+        pointer-events: auto;
+      }
+
+      #nigs-nogged {
+        padding-left: 32px;
+        font-family: "Comic Sans MS";
+        font-size: 48px;
+        color: violet;
+        -webkit-text-stroke: 3px black;
+        top: 0px;
+        left: 16px;
+        position: fixed;
+      }
+
+      #settingstextomgthisshitisbeingsoretarded {
+        padding-left: 32px;
+        font-family: "Comic Sans MS";
+        font-size: 48px;
+        color: violet;
+        -webkit-text-stroke: 3px black;
+        text-align: center;
+        margin-top: 0px;
+        transform: translateX(-4%);
+      }
+
+      #AutismMenuText {
+        padding-left: 32px;
+        font-family: "Comic Sans MS";
+        font-size: 32px;
+        color: violet;
+        -webkit-text-stroke: 2px black;
+        text-align: center;
+        margin-top: 0px;
+        transform: translateX(-4%);
+      }
+      /* Rainbow Button Styles */
+
+      .rainbow-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-family: "Comic Sans MS", cursive;
+        color: white;
+        background: linear-gradient(
+          90deg,
+          red,
+          orange,
+          yellow,
+          green,
+          blue,
+          purple,
+          violet
+        );
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .rainbow-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+      }
+
+      .rainbow-button:active {
+        transform: scale(0.95);
+      }
+
+      #settingsMenu {
+        border: 1px solid #888888;
+        padding: 20px;
+        max-width: 400px;
+        max-height: 600px;
+        width: 50%;
+        height: 50%;
+        text-align: center;
+        background-color: #a9a9a9;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10000;
+      }
+
+      #PearMenu {
+        border: 1px solid #888888;
+        padding: 20px;
+        max-width: 400px;
+        max-height: 600px;
+        width: 50%;
+        height: 50%;
+        text-align: center;
+        background-color: #a9a9a9;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10001;
+      }
+
+      #OtherMenu {
+        border: 1px solid #888888;
+        padding: 20px;
+        max-width: 400px;
+        max-height: 600px;
+        width: 50%;
+        height: 50%;
+        text-align: center;
+        background-color: #a9a9a9;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10001;
+      }
+
+      #settingsButton {
+        top: 20px;
+        right: 20px;
+        position: absolute;
+      }
+
+      #PearButton {
+        top: 80px;
+        right: 20px;
+        position: absolute;
+      }
+
+      #FaggotyButtonContainer {
+        padding-left: auto;
+        padding-left: auto;
+      }
+
+      #OtherButton {
+        top: 140px;
+        right: 20px;
+        position: absolute;
+      }
+
+      .settingspicture {
+        background-image: url("res/sitepics/settings.png");
+        background-size: cover;
+        width: 50px;
+        height: 50px;
+        border: 2px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
     <button id="settingsButton" class="settingspicture"></button>
     <div id="settingsMenu" style="display: none">
-        <h1 id="settingstextomgthisshitisbeingsoretarded">Settings</h1>
-        <button id="DefaultButton">Default Sounds: ✅</button>
-        <button id="NiggerButton">Nigger Sounds: ❌</button>
+      <h1 id="settingstextomgthisshitisbeingsoretarded">Settings</h1>
+      <button id="DefaultButton">Default Sounds: ✅</button>
+      <button id="NiggerButton">Nigger Sounds: ❌</button>
     </div>
 
-    <button id="PearButton" style="
+    <button
+      id="PearButton"
+      style="
         background: url('res/sitepics/jetneptunepear.png') no-repeat;
         background-size: cover;
         width: 50px;
@@ -177,9 +197,12 @@
         cursor: pointer;
         margin: 0;
         padding: 0;
-      "></button>
+      "
+    ></button>
 
-    <button id="OtherButton" style="
+    <button
+      id="OtherButton"
+      style="
         background: url('res/sitepics/lobotomy.png') no-repeat;
         background-size: cover;
         width: 50px;
@@ -188,18 +211,44 @@
         cursor: pointer;
         margin: 0;
         padding: 0;
-      "></button>
+      "
+    ></button>
 
     <div id="PearMenu" style="display: none">
-        <img src="res/sitepics/jetneptunepear.png" width="100%" />
+      <img src="res/sitepics/jetneptunepear.png" width="100%" />
     </div>
 
     <div id="OtherMenu" style="display: none">
-        <h1 id="AutismMenuText">Other Autistic Shit</h1>
-        <div id="FaggotyButtonContainer"><button id="SolomonButton" onclick="window.location.href='solomon.html'">Nigcel Generator!!!</button></div>
-        <div id="FaggotyButtonContainer"><button id="RecAutism0001Button" onclick="window.location.href='msmbg.html'">Msm Guides (random nigger hoosting #1)</button></div>
-        <div id="FaggotyButtonContainer"><button id="PearPageButton" onclick="window.location.href='pear.html'">Pear</button></div>
-        <div id="FaggotyButtonContainer"><button id="TerocyliaPageButton" onclick="window.location.href='terocylia.html'">terocylia flag thing (random nigger hoosting #2)</button></div>
+      <h1 id="AutismMenuText">Other Autistic Shit</h1>
+      <div id="FaggotyButtonContainer">
+        <button
+          id="SolomonButton"
+          onclick="window.location.href='solomon.html'"
+        >
+          Nigcel Generator!!!
+        </button>
+      </div>
+      <div id="FaggotyButtonContainer">
+        <button
+          id="RecAutism0001Button"
+          onclick="window.location.href='msmbg.html'"
+        >
+          Msm Guides
+        </button>
+      </div>
+      <div id="FaggotyButtonContainer">
+        <button id="PearPageButton" onclick="window.location.href='pear.html'">
+          Pear
+        </button>
+      </div>
+      <div id="FaggotyButtonContainer">
+        <button
+          id="TerocyliaPageButton"
+          onclick="window.location.href='terocylia.html'"
+        >
+          terocylia flag thing
+        </button>
+      </div>
     </div>
 
     <h1 id="nigs-nogged">0</h1>
@@ -209,206 +258,204 @@
     </button>
 -->
     <script>
-        let DefaultSounds = localStorage.getItem("DefaultSounds") === "true";
-        if (localStorage.getItem("DefaultSounds") === null) {
-            DefaultSounds = true;
-            localStorage.setItem("DefaultSounds", DefaultSounds);
-        }
+      let DefaultSounds = localStorage.getItem("DefaultSounds") === "true";
+      if (localStorage.getItem("DefaultSounds") === null) {
+        DefaultSounds = true;
+        localStorage.setItem("DefaultSounds", DefaultSounds);
+      }
+      if (DefaultSounds) {
+        document.getElementById("DefaultButton").textContent =
+          "Default Sounds: ✅";
+      } else {
+        document.getElementById("DefaultButton").textContent =
+          "Default Sounds: ❌";
+      }
+
+      let NiggerSounds = localStorage.getItem("NiggerSounds") === "true";
+      if (localStorage.getItem("NiggerSounds") === null) {
+        NiggerSounds = false;
+        localStorage.setItem("NiggerSounds", NiggerSounds);
+      }
+      if (NiggerSounds) {
+        document.getElementById("NiggerButton").textContent =
+          "Nigger Sounds: ✅";
+      } else {
+        document.getElementById("NiggerButton").textContent =
+          "Nigger Sounds: ❌";
+      }
+
+      document.getElementById("DefaultButton").addEventListener("click", () => {
+        DefaultSounds = !DefaultSounds;
+        localStorage.setItem("DefaultSounds", DefaultSounds);
+        const button = document.getElementById("DefaultButton");
         if (DefaultSounds) {
-            document.getElementById("DefaultButton").textContent =
-                "Default Sounds: ✅";
+          button.textContent = "Default Sounds: ✅";
+          new Audio("res/sounds/sigmaboy.mp3").play();
+          new Audio("res/sounds/fishtank.mp3").play();
         } else {
-            document.getElementById("DefaultButton").textContent =
-                "Default Sounds: ❌";
+          button.textContent = "Default Sounds: ❌";
+          new Audio("res/sounds/fishtank.mp3").play();
         }
+      });
 
-        let NiggerSounds = localStorage.getItem("NiggerSounds") === "true";
-        if (localStorage.getItem("NiggerSounds") === null) {
-            NiggerSounds = false;
-            localStorage.setItem("NiggerSounds", NiggerSounds);
+      function DefaultBGM() {
+        if (DefaultSounds) {
+          const audio = new Audio("res/sounds/sigmaboy.mp3");
+          audio.volume = 1;
+          audio.play();
         }
+      }
+
+      function NiggerBGM() {
         if (NiggerSounds) {
-            document.getElementById("NiggerButton").textContent =
-                "Nigger Sounds: ✅";
+          const audio = new Audio("res/sounds/niggachain.mp3");
+          audio.volume = 1;
+          audio.play();
+        }
+      }
+
+      let hasClicked = false;
+
+      document.addEventListener("click", function () {
+        if (!hasClicked) {
+          DefaultBGM();
+          setInterval(DefaultBGM, 120000);
+          NiggerBGM();
+          setInterval(NiggerBGM, 20000);
+          hasClicked = true;
+        }
+      });
+
+      document.getElementById("NiggerButton").addEventListener("click", () => {
+        NiggerSounds = !NiggerSounds;
+        localStorage.setItem("NiggerSounds", NiggerSounds);
+        const button = document.getElementById("NiggerButton");
+        if (NiggerSounds) {
+          button.textContent = "Nigger Sounds: ✅";
+          new Audio("res/sounds/niggachain.mp3").play();
+          new Audio("res/sounds/fishtank.mp3").play();
         } else {
-            document.getElementById("NiggerButton").textContent =
-                "Nigger Sounds: ❌";
+          button.textContent = "Nigger Sounds: ❌";
+          new Audio("res/sounds/fishtank.mp3").play();
         }
+      });
 
-        document.getElementById("DefaultButton").addEventListener("click", () => {
-            DefaultSounds = !DefaultSounds;
-            localStorage.setItem("DefaultSounds", DefaultSounds);
-            const button = document.getElementById("DefaultButton");
+      document
+        .getElementById("settingsButton")
+        .addEventListener("click", () => {
+          const settingsMenu = document.getElementById("settingsMenu");
+          new Audio("res/sounds/fishtank.mp3").play();
+          settingsMenu.style.display =
+            settingsMenu.style.display === "none" ? "block" : "none";
+        });
+
+      document.getElementById("PearButton").addEventListener("click", () => {
+        const settingsMenu = document.getElementById("PearMenu");
+        new Audio("res/sounds/fishtank.mp3").play();
+        settingsMenu.style.display =
+          settingsMenu.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("OtherButton").addEventListener("click", () => {
+        const settingsMenu = document.getElementById("OtherMenu");
+        new Audio("res/sounds/fishtank.mp3").play();
+        settingsMenu.style.display =
+          settingsMenu.style.display === "none" ? "block" : "none";
+      });
+
+      const imageSources = [
+        "res/black/ripnm.png",
+        "res/black/mogger.png",
+        "res/black/mirror.png",
+        "res/black/soyjak.png",
+        "res/black/cornyahh.png",
+        "res/black/dab.png",
+        "res/black/glocknigga.png",
+        "res/black/monkeyoohoohaahaah.png",
+        "res/black/niggativexp.png",
+        "res/black/skullmask.png",
+      ];
+
+      let imageSrc =
+        imageSources[Math.floor(Math.random() * imageSources.length)];
+
+      setInterval(() => {
+        imageSrc =
+          imageSources[Math.floor(Math.random() * imageSources.length)];
+      }, 5);
+
+      let NigsNogged = 0;
+      let NigSpawnrate = 1000;
+      const interval = setInterval(() => {
+        if (NigSpawnrate > 200) {
+          NigSpawnrate--;
+          console.log(NigSpawnrate);
+        } else {
+          clearInterval(interval);
+        }
+      }, 150);
+
+      function createFallingImage() {
+        const img = document.createElement("img");
+        img.src = imageSrc;
+        img.classList.add("falling-image");
+
+        const size = Math.random() * 100 + 40;
+        img.style.width = `${size}px`;
+        img.style.height = `${size}px`;
+        img.style.left = `${Math.random() * window.innerWidth}px`;
+        img.style.top = "0px";
+
+        img.addEventListener("click", () => {
+          if (DefaultSounds) {
+            new Audio("res/sounds/gong.mp3").play();
+          }
+          if (NiggerSounds) {
+            new Audio("res/sounds/whipcrack.mp3").play();
+          }
+          NigsNogged++;
+          nogging();
+          topPos -= 1488 * 6000000 * 271000;
+          img.remove();
+        });
+
+        document.body.appendChild(img);
+
+        let topPos = 0;
+        const speed = Math.random() * 3 + 1;
+
+        function fall() {
+          topPos += speed;
+          img.style.top = `${topPos}px`;
+
+          if (topPos < window.innerHeight - 150) {
+            requestAnimationFrame(fall);
+          } else {
             if (DefaultSounds) {
-                button.textContent = "Default Sounds: ✅";
-                new Audio("res/sounds/sigmaboy.mp3").play();
-                new Audio("res/sounds/fishtank.mp3").play();
-            } else {
-                button.textContent = "Default Sounds: ❌";
-                new Audio("res/sounds/fishtank.mp3").play();
+              new Audio("res/sounds/loudbuzzer.mp3").play();
             }
-        });
-
-        function DefaultBGM() {
-            if (DefaultSounds) {
-                const audio = new Audio("res/sounds/sigmaboy.mp3");
-                audio.volume = 1;
-                audio.play();
-            }
-        }
-
-        function NiggerBGM() {
             if (NiggerSounds) {
-                const audio = new Audio("res/sounds/niggachain.mp3");
-                audio.volume = 1;
-                audio.play();
+              new Audio("res/sounds/monkeys.mp3").play();
             }
+            img.remove();
+            NigsNogged--;
+            nogging();
+          }
         }
 
-        let hasClicked = false;
+        fall();
 
-        document.addEventListener("click", function() {
-            if (!hasClicked) {
-                DefaultBGM();
-                setInterval(DefaultBGM, 120000);
-                NiggerBGM();
-                setInterval(NiggerBGM, 20000);
-                hasClicked = true;
-            }
-        });
-
-        document.getElementById("NiggerButton").addEventListener("click", () => {
-            NiggerSounds = !NiggerSounds;
-            localStorage.setItem("NiggerSounds", NiggerSounds);
-            const button = document.getElementById("NiggerButton");
-            if (NiggerSounds) {
-                button.textContent = "Nigger Sounds: ✅";
-                new Audio("res/sounds/niggachain.mp3").play();
-                new Audio("res/sounds/fishtank.mp3").play();
-            } else {
-                button.textContent = "Nigger Sounds: ❌";
-                new Audio("res/sounds/fishtank.mp3").play();
-            }
-        });
-
-        document
-            .getElementById("settingsButton")
-            .addEventListener("click", () => {
-                const settingsMenu = document.getElementById("settingsMenu");
-                new Audio("res/sounds/fishtank.mp3").play();
-                settingsMenu.style.display =
-                    settingsMenu.style.display === "none" ? "block" : "none";
-            });
-
-        document.getElementById("PearButton").addEventListener("click", () => {
-            const settingsMenu = document.getElementById("PearMenu");
-            new Audio("res/sounds/fishtank.mp3").play();
-            settingsMenu.style.display =
-                settingsMenu.style.display === "none" ? "block" : "none";
-        });
-
-        document.getElementById("OtherButton").addEventListener("click", () => {
-            const settingsMenu = document.getElementById("OtherMenu");
-            new Audio("res/sounds/fishtank.mp3").play();
-            settingsMenu.style.display =
-                settingsMenu.style.display === "none" ? "block" : "none";
-        });
-
-        const imageSources = [
-            "res/black/ripnm.png",
-            "res/black/mogger.png",
-            "res/black/mirror.png",
-            "res/black/soyjak.png",
-            "res/black/cornyahh.png",
-            "res/black/dab.png",
-            "res/black/glocknigga.png",
-            "res/black/monkeyoohoohaahaah.png",
-            "res/black/niggativexp.png",
-            "res/black/skullmask.png",
-        ];
-
-        let imageSrc =
-            imageSources[Math.floor(Math.random() * imageSources.length)];
-
-        setInterval(() => {
-            imageSrc =
-                imageSources[Math.floor(Math.random() * imageSources.length)];
-        }, 5);
-
-        let NigsNogged = 0;
-        let NigSpawnrate = 1000;
-        const interval = setInterval(() => {
-            if (NigSpawnrate > 200) {
-                NigSpawnrate--;
-                console.log(NigSpawnrate);
-            } else {
-                clearInterval(interval);
-            }
-        }, 150);
-
-
-        function createFallingImage() {
-            const img = document.createElement("img");
-            img.src = imageSrc;
-            img.classList.add("falling-image");
-
-            const size = Math.random() * 100 + 40;
-            img.style.width = `${size}px`;
-            img.style.height = `${size}px`;
-            img.style.left = `${Math.random() * window.innerWidth}px`;
-            img.style.top = "0px";
-
-            img.addEventListener("click", () => {
-                if (DefaultSounds) {
-                    new Audio("res/sounds/gong.mp3").play();
-                }
-                if (NiggerSounds) {
-                    new Audio("res/sounds/whipcrack.mp3").play();
-                }
-                NigsNogged++;
-                nogging();
-                topPos -= 1488 * 6000000 * 271000;
-                img.remove();
-            });
-
-            document.body.appendChild(img);
-
-            let topPos = 0;
-            const speed = Math.random() * 3 + 1;
-
-            function fall() {
-                topPos += speed;
-                img.style.top = `${topPos}px`;
-
-                if (topPos < window.innerHeight - 150) {
-                    requestAnimationFrame(fall);
-                } else {
-                    if (DefaultSounds) {
-                        new Audio("res/sounds/loudbuzzer.mp3").play();
-                    }
-                    if (NiggerSounds) {
-                        new Audio("res/sounds/monkeys.mp3").play();
-                    }
-                    img.remove();
-                    NigsNogged--;
-                    nogging();
-                }
-            }
-
-            fall();
-
-            function nogging() {
-                document.getElementById("nigs-nogged").innerText = NigsNogged;
-            }
+        function nogging() {
+          document.getElementById("nigs-nogged").innerText = NigsNogged;
         }
+      }
 
-        function spawnLoop() {
-            createFallingImage();
-            setTimeout(spawnLoop, NigSpawnrate);
-        }
+      function spawnLoop() {
+        createFallingImage();
+        setTimeout(spawnLoop, NigSpawnrate);
+      }
 
-        spawnLoop();
+      spawnLoop();
     </script>
-</body>
-
+  </body>
 </html>

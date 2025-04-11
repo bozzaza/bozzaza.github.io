@@ -1,80 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nigcel Generator</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            background: linear-gradient(90deg, #A76E3A, #E3C6A0, #C89A5E, #E3C6A0, #C89A5E, #E3C6A0, #A76E3A);
-        }
-        
-        h1 {
-            text-align: center;
-            font-family: "Comic Sans MS";
-            font-size: 48px;
-            color: violet;
-            -webkit-text-stroke: 3px black;
-        }
-        
-        #solomoncontainer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-            background-color: black;
-            width: 500px;
-            height: 500px;
-            border-width: 2px;
-        }
-        
-        #solomoncontainer img {
-            width: 99%;
-            height: 99%;
-            object-fit: fill;
-        }
-    </style>
-</head>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        background: linear-gradient(
+          90deg,
+          #a76e3a,
+          #e3c6a0,
+          #c89a5e,
+          #e3c6a0,
+          #c89a5e,
+          #e3c6a0,
+          #a76e3a
+        );
+      }
 
-<body>
+      h1 {
+        text-align: center;
+        font-family: "Comic Sans MS";
+        font-size: 48px;
+        color: violet;
+        -webkit-text-stroke: 3px black;
+      }
+
+      #solomoncontainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        background-color: black;
+        width: 500px;
+        height: 500px;
+        border-width: 2px;
+      }
+
+      #solomoncontainer img {
+        width: 99%;
+        height: 99%;
+        object-fit: fill;
+      }
+    </style>
+  </head>
+
+  <body>
     <h1>Nigcel generator!!!</h1>
     <div id="solomoncontainer">
-        <img id="image" src="res/solomons/solomon.png">
+      <img id="image" src="res/solomons/solomon.png" />
     </div>
     <button id="changeImageBtn">Change Image</button>
 
     <script>
-        const images = [
-            "res/solomons/chillsvrochills.png",
-            "res/solomons/chuddy.png",
-            "res/solomons/fymthefitisnthard.png",
-            "res/solomons/happy.png",
-            "res/solomons/hetouchedgrass.png",
-            "res/solomons/middlefinger.png",
-            "res/solomons/rollie.png",
-            "res/solomons/selfie.png",
-            "res/solomons/skibidi.png",
-            "res/solomons/solomon.png",
-            "res/solomons/suicidal.png",
-            "res/solomons/whitepower.png",
-        ];
+      const images = [
+        "res/solomons/chillsvrochills.png",
+        "res/solomons/chuddy.png",
+        "res/solomons/fymthefitisnthard.png",
+        "res/solomons/happy.png",
+        "res/solomons/hetouchedgrass.png",
+        "res/solomons/middlefinger.png",
+        "res/solomons/rollie.png",
+        "res/solomons/selfie.png",
+        "res/solomons/skibidi.png",
+        "res/solomons/solomon.png",
+        "res/solomons/suicidal.png",
+        "res/solomons/whitepower.png",
+      ];
 
-        const imageElement = document.getElementById("image");
-        const changeImageBtn = document.getElementById("changeImageBtn");
+      const imageElement = document.getElementById("image");
+      const changeImageBtn = document.getElementById("changeImageBtn");
 
-        changeImageBtn.addEventListener("click", () => {
-            const randomIndex = Math.floor(Math.random() * images.length);
-            imageElement.src = images[randomIndex];
-            console.log("Changing image to:");
-        });
+      changeImageBtn.addEventListener("click", () => {
+        imageElement.style.transition = "opacity 0.5s";
+        imageElement.style.opacity = 0;
+
+        setTimeout(() => {
+          const randomIndex = Math.floor(Math.random() * images.length);
+          const selectedImage = images[randomIndex];
+          imageElement.src = selectedImage;
+          console.log("Changing image to:", selectedImage);
+
+          imageElement.style.opacity = 1;
+        }, 500);
+      });
     </script>
-
-</body>
-
+    <h1>those who know: 💀</h1>
+  </body>
 </html>
