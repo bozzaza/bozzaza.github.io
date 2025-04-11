@@ -76,12 +76,21 @@
       const imageElement = document.getElementById("image");
       const changeImageBtn = document.getElementById("changeImageBtn");
 
+      imageElement.style.transition = "opacity 0.5s";
+
+      let lastIndex = -1;
+
       changeImageBtn.addEventListener("click", () => {
-        imageElement.style.transition = "opacity 0.5s";
         imageElement.style.opacity = 0;
 
         setTimeout(() => {
-          const randomIndex = Math.floor(Math.random() * images.length);
+          let randomIndex;
+          do {
+            randomIndex = Math.floor(Math.random() * images.length);
+          } while (randomIndex === lastIndex);
+
+          lastIndex = randomIndex;
+
           const selectedImage = images[randomIndex];
           imageElement.src = selectedImage;
           console.log("Changing image to:", selectedImage);
@@ -90,6 +99,7 @@
         }, 500);
       });
     </script>
+
     <h1>those who know: 💀</h1>
   </body>
 </html>
