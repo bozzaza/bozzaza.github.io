@@ -78,26 +78,47 @@
 
       imageElement.style.transition = "opacity 0.5s";
 
-      let lastIndex = -1;
+      // Create a copy of the original images array
+      const originalImages = [...images];
+      let shuffledImages = [];
+      let currentIndex = 0;
+
+      // Function to shuffle an array (Fisher-Yates algorithm)
+      function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+      }
+
+      // Initial shuffle
+      shuffledImages = shuffleArray(originalImages);
 
       changeImageBtn.addEventListener("click", () => {
         imageElement.style.opacity = 0;
 
         setTimeout(() => {
-          let randomIndex;
-          do {
-            randomIndex = Math.floor(Math.random() * images.length);
-          } while (randomIndex === lastIndex);
+          // If we've gone through all images, reshuffle
+          if (currentIndex >= shuffledImages.length) {
+            shuffledImages = shuffleArray(originalImages);
+            currentIndex = 0;
+          }
 
-          lastIndex = randomIndex;
-
-          const selectedImage = images[randomIndex];
+          const selectedImage = shuffledImages[currentIndex];
           imageElement.src = selectedImage;
           console.log("Changing image to:", selectedImage);
+
+          currentIndex++;
 
           imageElement.style.opacity = 1;
         }, 500);
       });
+
+      // Show first image immediately (optional)
+      imageElement.src = shuffledImages[0];
+      currentIndex = 1;
     </script>
 
     <h1>those who know: 💀</h1>
