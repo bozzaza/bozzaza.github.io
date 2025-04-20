@@ -2,12 +2,22 @@
   <head>
     <style>
       h1,
-      p {
+      h2 {
         font-family: "Comic Sans MS";
-        font-size: 48px;
         color: violet;
         -webkit-text-stroke: 3px black;
         text-align: center;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      p {
+        padding-left: 10;
+        font-size: 30;
+        line-height: 0.1;
+        font-family: verdana;
       }
 
       body {
@@ -19,17 +29,19 @@
         height: 40px;
         display: block;
         margin: auto;
-        background-color: lightyellow;
+        background-color: rgb(233, 243, 208);
+        font-family: verdana;
       }
 
       .upgradebutton {
-        width: 100px;
+        width: 133px;
         height: 100px;
         display: inline-block;
         margin-top: 10px;
         margin-left: 5px;
         margin-right: 5px;
         background-color: lightgrey;
+        font-family: verdana;
       }
 
       .upgradesection {
@@ -75,7 +87,12 @@
       img {
         margin: auto;
         display: block;
-        padding-top: 100;
+      }
+
+      .statsmenu {
+        background-color: lightslategrey;
+        border-style: solid;
+        margin-bottom: 10;
       }
     </style>
   </head>
@@ -88,16 +105,27 @@
       <button onclick="resetGame()">Reset Game</button>
     </div>
 
-    <p>Points: <span id="CountDisplay"></span></p>
+    <div class="statsmenu">
+      <p>stats</p>
+      <p>Points: <span id="CountDisplay"></span></p>
+      <p>Base Increment: <span id="BaseIncrementDisplay"></span></p>
+      <p>Multiplier: <span id="MultiplierDisplay"></span></p>
+    </div>
 
     <button onclick="incrementCounter()" class="incrementbutton">
       Click to increase points by: <span id="IncrementDisplay"></span>
     </button>
 
     <div class="upgradesection">
-      <button onclick="buyUpg1()" class="upgradebutton" id="upgrade">
-        Click to increase increment by 1: Cost:
+      <button onclick="buyUpg1()" class="upgradebutton" id="upgrade1">
+        Click to increase base increment by 1 <br />
+        Cost:
         <span id="Upg1CostDisplay"></span>
+      </button>
+      <button onclick="buyUpg2()" class="upgradebutton" id="upgrade2">
+        Click to increase multiplier by 1 <br />
+        Cost:
+        <span id="Upg2CostDisplay"></span>
       </button>
     </div>
 
@@ -105,61 +133,106 @@
 
     <script>
       let counter = 0;
+      let baseincrement = 1;
+      let multiplier = 1;
       let increment = 1;
       let Upg1Cost = 10;
+      let Upg2Cost = 1000;
+
+      function UpdateIncrement() {
+        increment = baseincrement * multiplier;
+        updateDisplay();
+      }
 
       function incrementCounter() {
         counter += increment;
         updateDisplay();
         saveGame();
         Upg1CostChecker();
+        UpdateIncrement();
       }
 
       function updateDisplay() {
         document.getElementById("CountDisplay").innerHTML = counter;
+        document.getElementById("BaseIncrementDisplay").innerHTML =
+          baseincrement;
+        document.getElementById("MultiplierDisplay").innerHTML = multiplier;
         document.getElementById("IncrementDisplay").innerHTML = increment;
         document.getElementById("Upg1CostDisplay").innerHTML = Upg1Cost;
+        document.getElementById("Upg2CostDisplay").innerHTML = Upg2Cost;
         Upg1CostChecker();
+        Upg2CostChecker();
       }
 
       function buyUpg1() {
         if (counter >= Upg1Cost) {
           counter -= Upg1Cost;
           Upg1Cost = Math.floor(Upg1Cost * 1.1);
-          increment += 1;
+          baseincrement += 1;
           updateDisplay();
           saveGame();
           Upg1CostChecker();
+          UpdateIncrement();
+        }
+      }
+
+      function buyUpg2() {
+        if (counter >= Upg2Cost) {
+          counter -= Upg2Cost;
+          Upg2Cost = Math.floor(Upg2Cost * 2);
+          multiplier += 1;
+          updateDisplay();
+          saveGame();
+          Upg2CostChecker();
+          UpdateIncrement();
         }
       }
 
       function saveGame() {
         localStorage.setItem("counter", counter);
-        localStorage.setItem("increment", increment);
+        localStorage.setItem("baseincrement", baseincrement);
+        localStorage.setItem("multiplier", multiplier);
+        //localStorage.setItem("increment", increment);
         localStorage.setItem("Upg1Cost", Upg1Cost);
+        localStorage.setItem("Upg2Cost", Upg2Cost);
       }
 
       function loadGame() {
         if (localStorage.getItem("counter") !== null) {
           counter = parseInt(localStorage.getItem("counter"));
-          increment = parseInt(localStorage.getItem("increment"));
+          baseincrement = parseInt(localStorage.getItem("baseincrement"));
+          multiplier = parseInt(localStorage.getItem("multiplier"));
+          //increment = parseInt(localStorage.getItem("increment"));
           Upg1Cost = parseInt(localStorage.getItem("Upg1Cost"));
+          Upg2Cost = parseInt(localStorage.getItem("Upg2Cost"));
         }
+        UpdateIncrement();
       }
 
       function Upg1CostChecker() {
-        if (counter > Upg1Cost) {
-          document.getElementById("upgrade").classList.add("costvalid");
+        if (counter >= Upg1Cost) {
+          document.getElementById("upgrade1").classList.add("costvalid");
         } else {
-          document.getElementById("upgrade").classList.remove("costvalid");
+          document.getElementById("upgrade1").classList.remove("costvalid");
+        }
+      }
+
+      function Upg2CostChecker() {
+        if (counter >= Upg2Cost) {
+          document.getElementById("upgrade2").classList.add("costvalid");
+        } else {
+          document.getElementById("upgrade2").classList.remove("costvalid");
         }
       }
 
       function resetGame() {
         localStorage.clear();
         counter = 0;
-        increment = 1;
+        baseincrement = 1;
+        multiplier = 1;
         Upg1Cost = 10;
+        Upg2Cost = 1000;
+        UpdateIncrement();
         updateDisplay();
       }
 
