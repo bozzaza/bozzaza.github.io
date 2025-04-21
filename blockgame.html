@@ -40,12 +40,39 @@
         font-size: 48px;
         color: violet;
         -webkit-text-stroke: 3px black;
+        margin: 0;
+      }
+
+      h2 {
+        text-align: center;
+        font-family: "Comic Sans MS";
+        font-size: 32px;
+        color: violet;
+        -webkit-text-stroke: 2px black;
+        padding: 0;
+        margin: 0;
+      }
+
+      #bouncer {
+        width: 100px;
+        height: 100px;
+        background-color: hotpink;
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        z-index: 0;
+        border: 5px solid;
       }
     </style>
   </head>
   <body>
     <h1>block game</h1>
+    <h2>very unfinished!!</h2>
+    <h2 id="timer">time alive: 0.0s</h2>
+    <h2>controls: wasd</h2>
+
     <div id="player"></div>
+    <div id="bouncer"></div>
 
     <div
       class="wall"
@@ -103,6 +130,64 @@
         player.style.top = `${playery}px`;
       }
 
+      const bouncer = document.getElementById("bouncer");
+      let bouncerX = 100;
+      let bouncerY = 100;
+      let bouncerVX = 2;
+      let bouncerVY = 2;
+
+      function moveBouncer() {
+        const bouncerWidth = bouncer.offsetWidth;
+        const bouncerHeight = bouncer.offsetHeight;
+
+        bouncerX += bouncerVX;
+        bouncerY += bouncerVY;
+
+        // Bounce on wall collision
+        walls.forEach((wall) => {
+          const wallRect = wall.getBoundingClientRect();
+          const bouncerRect = {
+            left: bouncerX,
+            top: bouncerY,
+            right: bouncerX + bouncerWidth,
+            bottom: bouncerY + bouncerHeight,
+          };
+
+          if (
+            bouncerRect.right > wall.offsetLeft &&
+            bouncerRect.left < wall.offsetLeft + wall.offsetWidth &&
+            bouncerRect.bottom > wall.offsetTop &&
+            bouncerRect.top < wall.offsetTop + wall.offsetHeight
+          ) {
+            // Figure out bounce direction
+            if (
+              bouncerRect.right - bouncerVX <= wall.offsetLeft ||
+              bouncerRect.left - bouncerVX >= wall.offsetLeft + wall.offsetWidth
+            ) {
+              bouncerVX *= -1;
+            }
+            if (
+              bouncerRect.bottom - bouncerVY <= wall.offsetTop ||
+              bouncerRect.top - bouncerVY >= wall.offsetTop + wall.offsetHeight
+            ) {
+              bouncerVY *= -1;
+            }
+          }
+        });
+
+        bouncer.style.left = `${bouncerX}px`;
+        bouncer.style.top = `${bouncerY}px`;
+      }
+
+      function isColliding(rect1, rect2) {
+        return (
+          rect1.left < rect2.right &&
+          rect1.right > rect2.left &&
+          rect1.top < rect2.bottom &&
+          rect1.bottom > rect2.top
+        );
+      }
+
       document.addEventListener("keydown", function (event) {
         if (event.key === "w") moving.w = true;
         if (event.key === "a") moving.a = true;
@@ -117,7 +202,25 @@
         if (event.key === "d") moving.d = false;
       });
 
-      setInterval(moveplayer, 1);
+      let timeAlive = 0;
+      const timerElement = document.getElementById("timer");
+
+      setInterval(() => {
+        moveplayer();
+        moveBouncer();
+
+        const playerRect = player.getBoundingClientRect();
+        const bouncerRect = bouncer.getBoundingClientRect();
+
+        if (isColliding(playerRect, bouncerRect)) {
+          player.style.display = "none"; // Hides the player
+          alert("You died!");
+          location.reload(); // Reloads the page to restart
+        }
+
+        timeAlive += 0.005; // since setInterval runs every 5ms
+        timerElement.textContent = `time alive: ${timeAlive.toFixed(1)}s`;
+      }, 5);
     </script>
   </body>
 </html>
