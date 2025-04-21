@@ -68,11 +68,11 @@
   <body>
     <h1>block game</h1>
     <h2>very unfinished!!</h2>
-    <h2 id="timer">time alive: 0.0s</h2>
+    <!--<h2 id="timer">time alive: 0.0s</h2>-->
     <h2>controls: wasd</h2>
 
     <div id="player"></div>
-    <div id="bouncer"></div>
+    <!--<div id="bouncer"></div>-->
 
     <div
       class="wall"
@@ -90,47 +90,107 @@
       class="wall"
       style="width: 100vw; height: 20px; bottom: -15px; left: 0px"
     ></div>
+    <div
+      class="wall"
+      style="width: 100px; height: 100px; top: 700px; left: 400px"
+    ></div>
+    <div
+      class="wall"
+      style="width: 100px; height: 100px; top: 500px; left: 600px"
+    ></div>
+    <div
+      class="wall"
+      style="width: 100px; height: 100px; top: 350px; left: 450px"
+    ></div>
+    <div
+      class="wall"
+      style="width: 100px; height: 100px; top: 180px; left: 100px"
+    ></div>
     <script>
       const player = document.getElementById("player");
       let playerx = 5;
       let playery = 5;
-      let movedist = 1;
+      let movedist = 1.4;
       let moving = { w: false, a: false, s: false, d: false };
       const walls = document.querySelectorAll(".wall");
+      let velocityY = 0;
+      const gravity = 0.03;
+      const jumpStrength = -4;
+      let onGround = false;
 
       function moveplayer() {
-        let newplayerx = playerx;
-        let newplayery = playery;
+        // --- Horizontal movement ---
+        let newPlayerX = playerx;
+        if (moving.a) newPlayerX -= movedist;
+        if (moving.d) newPlayerX += movedist;
 
-        if (moving.w) newplayery -= movedist;
-        if (moving.a) newplayerx -= movedist;
-        if (moving.s) newplayery += movedist;
-        if (moving.d) newplayerx += movedist;
-
-        let collision = false;
+        let collidedX = false;
         walls.forEach((wall) => {
-          const wallhitbox = wall.getBoundingClientRect();
-          const playerhitbox = player.getBoundingClientRect();
+          const wallRect = wall.getBoundingClientRect();
+          const playerRect = {
+            left: newPlayerX,
+            top: playery,
+            right: newPlayerX + player.offsetWidth,
+            bottom: playery + player.offsetHeight,
+          };
 
           if (
-            newplayerx + playerhitbox.width > wallhitbox.left &&
-            newplayerx < wallhitbox.left + wallhitbox.width &&
-            newplayery + playerhitbox.height > wallhitbox.top &&
-            newplayery < wallhitbox.top + wallhitbox.height
+            playerRect.right > wallRect.left &&
+            playerRect.left < wallRect.right &&
+            playerRect.bottom > wallRect.top &&
+            playerRect.top < wallRect.bottom
           ) {
-            collision = true; // Collision detected
+            collidedX = true;
           }
         });
 
-        if (!collision) {
-          playerx = newplayerx;
-          playery = newplayery;
-        }
+        if (!collidedX) playerx = newPlayerX;
+
+        // --- Vertical movement ---
+        velocityY += gravity;
+        let newPlayerY = playery + velocityY;
+
+        onGround = false;
+        let collidedY = false;
+
+        walls.forEach((wall) => {
+          const wallRect = wall.getBoundingClientRect();
+          const playerRect = {
+            left: playerx,
+            top: newPlayerY,
+            right: playerx + player.offsetWidth,
+            bottom: newPlayerY + player.offsetHeight,
+          };
+
+          if (
+            playerRect.right > wallRect.left &&
+            playerRect.left < wallRect.right &&
+            playerRect.bottom > wallRect.top &&
+            playerRect.top < wallRect.bottom
+          ) {
+            collidedY = true;
+
+            if (velocityY > 0) {
+              // Falling
+              newPlayerY = wallRect.top - player.offsetHeight;
+              onGround = true;
+            } else if (velocityY < 0) {
+              // Jumping up
+              newPlayerY = wallRect.bottom;
+            }
+
+            velocityY = 0;
+          }
+        });
+
+        playery = newPlayerY;
+
+        // Update player position on screen
         player.style.left = `${playerx}px`;
         player.style.top = `${playery}px`;
       }
 
-      const bouncer = document.getElementById("bouncer");
+      /*const bouncer = document.getElementById("bouncer");
       let bouncerX = 100;
       let bouncerY = 100;
       let bouncerVX = 2;
@@ -187,18 +247,17 @@
           rect1.bottom > rect2.top
         );
       }
-
+*/
       document.addEventListener("keydown", function (event) {
-        if (event.key === "w") moving.w = true;
         if (event.key === "a") moving.a = true;
-        if (event.key === "s") moving.s = true;
         if (event.key === "d") moving.d = true;
+        if ((event.key === "w" || event.key === " ") && onGround) {
+          velocityY = jumpStrength;
+        }
       });
 
       document.addEventListener("keyup", function (event) {
-        if (event.key === "w") moving.w = false;
         if (event.key === "a") moving.a = false;
-        if (event.key === "s") moving.s = false;
         if (event.key === "d") moving.d = false;
       });
 
@@ -207,16 +266,16 @@
 
       setInterval(() => {
         moveplayer();
-        moveBouncer();
+        //moveBouncer();
 
         const playerRect = player.getBoundingClientRect();
-        const bouncerRect = bouncer.getBoundingClientRect();
+        //const bouncerRect = bouncer.getBoundingClientRect();
 
-        if (isColliding(playerRect, bouncerRect)) {
+        /*if (isColliding(playerRect, bouncerRect)) {
           player.style.display = "none"; // Hides the player
           alert("You died!");
           location.reload(); // Reloads the page to restart
-        }
+        }*/
 
         timeAlive += 0.005; // since setInterval runs every 5ms
         timerElement.textContent = `time alive: ${timeAlive.toFixed(1)}s`;
