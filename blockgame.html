@@ -1,285 +1,394 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <style>
-      html,
-      body {
-        overflow: hidden;
-        height: 100%;
-      }
-
-      body {
-        background-color: burlywood;
-        margin: 0;
-        padding: 0;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        width: 100vw;
-      }
-
-      #player {
-        width: 20px;
-        height: 20px;
-        background-color: lightgreen;
-        position: absolute;
-        outline: 2px solid;
-        z-index: 1;
-        border: 1px solid;
-      }
-
-      .wall {
-        background-color: darkgray;
-        position: absolute;
-      }
-
-      h1 {
-        text-align: center;
-        font-family: "Comic Sans MS";
-        font-size: 48px;
-        color: violet;
-        -webkit-text-stroke: 3px black;
-        margin: 0;
-      }
-
-      h2 {
-        text-align: center;
-        font-family: "Comic Sans MS";
-        font-size: 32px;
-        color: violet;
-        -webkit-text-stroke: 2px black;
-        padding: 0;
-        margin: 0;
-      }
-
-      #bouncer {
-        width: 100px;
-        height: 100px;
-        background-color: hotpink;
-        position: absolute;
-        top: 100px;
-        left: 100px;
-        z-index: 0;
-        border: 5px solid;
-      }
+        html,
+        body {
+            overflow: hidden;
+            height: 100%;
+            max-width: 400px;
+            max-height: 600px;
+        }
+        
+        body {
+            background-color: burlywood;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        #player {
+            width: 20px;
+            height: 20px;
+            background-color: lightgreen;
+            position: absolute;
+            outline: 2px solid;
+            z-index: 1;
+            border: 1px solid;
+        }
+        
+        .wall {
+            background-color: rgb(51, 50, 50);
+            position: absolute;
+        }
+        
+        h1 {
+            text-align: center;
+            font-family: "Comic Sans MS";
+            font-size: 60px;
+            color: violet;
+            -webkit-text-stroke: 3.5px black;
+            margin: 0;
+        }
+        
+        h2 {
+            text-align: center;
+            font-family: "Comic Sans MS";
+            font-size: 32px;
+            color: violet;
+            -webkit-text-stroke: 2px black;
+            padding: 0;
+            margin: 0;
+        }
+        
+        #bouncer {
+            width: 100px;
+            height: 100px;
+            background-color: hotpink;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            z-index: 0;
+            border: 5px solid;
+        }
+        
+        .projectile {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+            top: 0;
+            z-index: 0;
+            border: 2px solid;
+        }
+        
+        #gameOverScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        #gameOverBox {
+            background-color: white;
+            border: 4px solid black;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            font-family: "Comic Sans MS";
+            color: red;
+            max-width: 300px;
+            max-height: 230px;
+            height: 230px;
+            position: absolute;
+            top: 185px;
+        }
+        
+        #gameOverBox h1 {
+            font-size: 48px;
+        }
+        
+        #gameOverBox h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        #gameOverBox button {
+            font-size: 24px;
+            padding: 10px 30px;
+            border: 2px solid black;
+            border-radius: 8px;
+            background-color: violet;
+            cursor: pointer;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>block game</h1>
-    <h2>very unfinished!!</h2>
-    <!--<h2 id="timer">time alive: 0.0s</h2>-->
-    <h2>controls: wasd</h2>
+    <h2 id="timer">time alive: 0.0s</h2>
+    <h2 id="bestTime">best time: 0.0s</h2>
 
     <div id="player"></div>
-    <!--<div id="bouncer"></div>-->
 
-    <div
-      class="wall"
-      style="width: 100vw; height: 20px; top: -15px; left: 0px"
-    ></div>
-    <div
-      class="wall"
-      style="width: 20px; height: 100vh; top: 0px; left: -15px"
-    ></div>
-    <div
-      class="wall"
-      style="width: 20px; height: 100vh; top: 0px; right: -15px"
-    ></div>
-    <div
-      class="wall"
-      style="width: 100vw; height: 20px; bottom: -15px; left: 0px"
-    ></div>
-    <div
-      class="wall"
-      style="width: 100px; height: 100px; top: 700px; left: 400px"
-    ></div>
-    <div
-      class="wall"
-      style="width: 100px; height: 100px; top: 500px; left: 600px"
-    ></div>
-    <div
-      class="wall"
-      style="width: 100px; height: 100px; top: 350px; left: 450px"
-    ></div>
-    <div
-      class="wall"
-      style="width: 100px; height: 100px; top: 180px; left: 100px"
-    ></div>
+    <div class="wall" style="width: 100vw; height: 20px; top: -15px; left: 0px"></div>
+    <div class="wall" style="width: 20px; height: 100vh; top: 0px; left: -15px"></div>
+    <div class="wall" style="width: 20px; height: 100vh; top: 0px; right: -15px"></div>
+    <div class="wall" style="width: 100vw; height: 20px; bottom: -15px; left: 0px"></div>
+
+    <div id="gameOverScreen" style="display: none;">
+        <div id="gameOverBox">
+            <h1>Game Over</h1>
+            <h2>You survived for <span id="finalTime">0.0</span> seconds</h2>
+            <button onclick="location.reload()" id="tryagainbutton">Try Again</button>
+        </div>
+    </div>
+
     <script>
-      const player = document.getElementById("player");
-      let playerx = 5;
-      let playery = 5;
-      let movedist = 1.4;
-      let moving = { w: false, a: false, s: false, d: false };
-      const walls = document.querySelectorAll(".wall");
-      let velocityY = 0;
-      const gravity = 0.03;
-      const jumpStrength = -4;
-      let onGround = false;
+        const player = document.getElementById("player");
+        let playerx = 5;
+        let playery = 5;
+        let movedist = 3;
+        let moving = {
+            w: false,
+            a: false,
+            s: false,
+            d: false
+        };
+        const walls = document.querySelectorAll(".wall");
+        let velocityY = 0;
+        const gravity = 0.1;
+        const jumpStrength = -7;
+        let onGround = false;
+        const projectileFallSpeed = 0.1;
+        let projectilespawnrate = 1500;
+        let gameOver = false;
+        let timeAlive = 0;
+        let spawnInterval;
+        const projectiles = [];
+        const timerElement = document.getElementById("timer");
 
-      function moveplayer() {
-        // --- Horizontal movement ---
-        let newPlayerX = playerx;
-        if (moving.a) newPlayerX -= movedist;
-        if (moving.d) newPlayerX += movedist;
-
-        let collidedX = false;
-        walls.forEach((wall) => {
-          const wallRect = wall.getBoundingClientRect();
-          const playerRect = {
-            left: newPlayerX,
-            top: playery,
-            right: newPlayerX + player.offsetWidth,
-            bottom: playery + player.offsetHeight,
-          };
-
-          if (
-            playerRect.right > wallRect.left &&
-            playerRect.left < wallRect.right &&
-            playerRect.bottom > wallRect.top &&
-            playerRect.top < wallRect.bottom
-          ) {
-            collidedX = true;
-          }
-        });
-
-        if (!collidedX) playerx = newPlayerX;
-
-        // --- Vertical movement ---
-        velocityY += gravity;
-        let newPlayerY = playery + velocityY;
-
-        onGround = false;
-        let collidedY = false;
-
-        walls.forEach((wall) => {
-          const wallRect = wall.getBoundingClientRect();
-          const playerRect = {
-            left: playerx,
-            top: newPlayerY,
-            right: playerx + player.offsetWidth,
-            bottom: newPlayerY + player.offsetHeight,
-          };
-
-          if (
-            playerRect.right > wallRect.left &&
-            playerRect.left < wallRect.right &&
-            playerRect.bottom > wallRect.top &&
-            playerRect.top < wallRect.bottom
-          ) {
-            collidedY = true;
-
-            if (velocityY > 0) {
-              // Falling
-              newPlayerY = wallRect.top - player.offsetHeight;
-              onGround = true;
-            } else if (velocityY < 0) {
-              // Jumping up
-              newPlayerY = wallRect.bottom;
-            }
-
+        function initGame() {
+            // Reset game state
+            gameOver = false;
+            timeAlive = 0;
+            playerx = 5;
+            playery = 5;
             velocityY = 0;
-          }
-        });
+            projectilespawnrate = 1500;
 
-        playery = newPlayerY;
+            // Clear all projectiles
+            projectiles.forEach(proj => proj.element.remove());
+            projectiles.length = 0;
 
-        // Update player position on screen
-        player.style.left = `${playerx}px`;
-        player.style.top = `${playery}px`;
-      }
+            // Reset player position
+            player.style.left = `${playerx}px`;
+            player.style.top = `${playery}px`;
 
-      /*const bouncer = document.getElementById("bouncer");
-      let bouncerX = 100;
-      let bouncerY = 100;
-      let bouncerVX = 2;
-      let bouncerVY = 2;
+            // Start projectile spawning
+            spawnInterval = setInterval(spawnProjectile, projectilespawnrate);
 
-      function moveBouncer() {
-        const bouncerWidth = bouncer.offsetWidth;
-        const bouncerHeight = bouncer.offsetHeight;
-
-        bouncerX += bouncerVX;
-        bouncerY += bouncerVY;
-
-        // Bounce on wall collision
-        walls.forEach((wall) => {
-          const wallRect = wall.getBoundingClientRect();
-          const bouncerRect = {
-            left: bouncerX,
-            top: bouncerY,
-            right: bouncerX + bouncerWidth,
-            bottom: bouncerY + bouncerHeight,
-          };
-
-          if (
-            bouncerRect.right > wall.offsetLeft &&
-            bouncerRect.left < wall.offsetLeft + wall.offsetWidth &&
-            bouncerRect.bottom > wall.offsetTop &&
-            bouncerRect.top < wall.offsetTop + wall.offsetHeight
-          ) {
-            // Figure out bounce direction
-            if (
-              bouncerRect.right - bouncerVX <= wall.offsetLeft ||
-              bouncerRect.left - bouncerVX >= wall.offsetLeft + wall.offsetWidth
-            ) {
-              bouncerVX *= -1;
-            }
-            if (
-              bouncerRect.bottom - bouncerVY <= wall.offsetTop ||
-              bouncerRect.top - bouncerVY >= wall.offsetTop + wall.offsetHeight
-            ) {
-              bouncerVY *= -1;
-            }
-          }
-        });
-
-        bouncer.style.left = `${bouncerX}px`;
-        bouncer.style.top = `${bouncerY}px`;
-      }
-
-      function isColliding(rect1, rect2) {
-        return (
-          rect1.left < rect2.right &&
-          rect1.right > rect2.left &&
-          rect1.top < rect2.bottom &&
-          rect1.bottom > rect2.top
-        );
-      }
-*/
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "a") moving.a = true;
-        if (event.key === "d") moving.d = true;
-        if ((event.key === "w" || event.key === " ") && onGround) {
-          velocityY = jumpStrength;
+            // Hide game over screen
+            document.getElementById("gameOverScreen").style.display = "none";
         }
-      });
 
-      document.addEventListener("keyup", function (event) {
-        if (event.key === "a") moving.a = false;
-        if (event.key === "d") moving.d = false;
-      });
+        function adjustSpawnRate() {
+            if (gameOver) return;
 
-      let timeAlive = 0;
-      const timerElement = document.getElementById("timer");
+            timeAlive += 0.005;
 
-      setInterval(() => {
-        moveplayer();
-        //moveBouncer();
+            // Calculate the new spawn rate (linearly decrease from 1500ms to 250ms over 100 seconds)
+            const minSpawnRate = 100;
+            const maxSpawnRate = 1500;
+            const spawnRateProgress = Math.min(timeAlive / 100, 1);
+            const newSpawnRate = maxSpawnRate - (maxSpawnRate - minSpawnRate) * spawnRateProgress;
 
-        const playerRect = player.getBoundingClientRect();
-        //const bouncerRect = bouncer.getBoundingClientRect();
+            // Only update if there's a significant change
+            if (Math.abs(newSpawnRate - projectilespawnrate) > 50) {
+                projectilespawnrate = newSpawnRate;
+                clearInterval(spawnInterval);
+                spawnInterval = setInterval(spawnProjectile, projectilespawnrate);
+            }
 
-        /*if (isColliding(playerRect, bouncerRect)) {
-          player.style.display = "none"; // Hides the player
-          alert("You died!");
-          location.reload(); // Reloads the page to restart
-        }*/
+            // Update timer display
+            timerElement.textContent = `time alive: ${timeAlive.toFixed(1)}s`;
+        }
 
-        timeAlive += 0.005; // since setInterval runs every 5ms
-        timerElement.textContent = `time alive: ${timeAlive.toFixed(1)}s`;
-      }, 5);
+        function moveplayer() {
+            if (gameOver) return;
+
+            // Horizontal movement
+            let newPlayerX = playerx;
+            if (moving.a) newPlayerX -= movedist;
+            if (moving.d) newPlayerX += movedist;
+
+            let collidedX = false;
+            walls.forEach((wall) => {
+                const wallRect = wall.getBoundingClientRect();
+                const playerRect = {
+                    left: newPlayerX,
+                    top: playery,
+                    right: newPlayerX + player.offsetWidth,
+                    bottom: playery + player.offsetHeight,
+                };
+
+                if (
+                    playerRect.right > wallRect.left &&
+                    playerRect.left < wallRect.right &&
+                    playerRect.bottom > wallRect.top &&
+                    playerRect.top < wallRect.bottom
+                ) {
+                    collidedX = true;
+                }
+            });
+
+            if (!collidedX) playerx = newPlayerX;
+
+            // Vertical movement
+            velocityY += gravity;
+            let newPlayerY = playery + velocityY;
+
+            onGround = false;
+            let collidedY = false;
+
+            walls.forEach((wall) => {
+                const wallRect = wall.getBoundingClientRect();
+                const playerRect = {
+                    left: playerx,
+                    top: newPlayerY,
+                    right: playerx + player.offsetWidth,
+                    bottom: newPlayerY + player.offsetHeight,
+                };
+
+                if (
+                    playerRect.right > wallRect.left &&
+                    playerRect.left < wallRect.right &&
+                    playerRect.bottom > wallRect.top &&
+                    playerRect.top < wallRect.bottom
+                ) {
+                    collidedY = true;
+
+                    if (velocityY > 0) {
+                        // Falling
+                        newPlayerY = wallRect.top - player.offsetHeight;
+                        onGround = true;
+                    } else if (velocityY < 0) {
+                        // Jumping up
+                        newPlayerY = wallRect.bottom;
+                    }
+
+                    velocityY = 0;
+                }
+            });
+
+            playery = newPlayerY;
+
+            // Update player position
+            player.style.left = `${playerx}px`;
+            player.style.top = `${playery}px`;
+        }
+
+        function spawnProjectile() {
+            if (gameOver) return;
+
+            const proj = document.createElement("div");
+            proj.className = "projectile";
+            proj.style.left = `${Math.random() * (window.innerWidth - 20)}px`;
+            document.body.appendChild(proj);
+
+            projectiles.push({
+                element: proj,
+                x: parseFloat(proj.style.left),
+                y: 0,
+                vy: 0
+            });
+        }
+
+        function updateProjectiles() {
+            if (gameOver) return;
+
+            for (let i = projectiles.length - 1; i >= 0; i--) {
+                const proj = projectiles[i];
+                proj.vy += gravity * projectileFallSpeed;
+                proj.y += proj.vy;
+                proj.element.style.top = `${proj.y}px`;
+
+                // Collision detection with player
+                const projRect = proj.element.getBoundingClientRect();
+                const playerRect = player.getBoundingClientRect();
+
+                if (
+                    projRect.right > playerRect.left &&
+                    projRect.left < playerRect.right &&
+                    projRect.bottom > playerRect.top &&
+                    projRect.top < playerRect.bottom
+                ) {
+                    endGame();
+                    return;
+                }
+
+                // Remove projectile if off-screen
+                if (proj.y > window.innerHeight) {
+                    proj.element.remove();
+                    projectiles.splice(i, 1);
+                }
+            }
+        }
+
+        function endGame() {
+            gameOver = true;
+            clearInterval(spawnInterval);
+
+            const finalTime = timeAlive.toFixed(1);
+            document.getElementById("finalTime").textContent = finalTime;
+
+            // Get the saved best time from localStorage
+            const savedBestTime = parseFloat(localStorage.getItem("bestTime")) || 0;
+
+            // Update best time if current time is better
+            if (parseFloat(finalTime) > savedBestTime) {
+                localStorage.setItem("bestTime", finalTime);
+            }
+
+            // Update best time display
+            document.getElementById("bestTime").textContent = `best time: ${localStorage.getItem("bestTime") || '0.0'}s`;
+
+            // Show game over screen
+            document.getElementById("gameOverScreen").style.display = "flex";
+        }
+
+        // Event listeners
+        document.addEventListener("keydown", function(event) {
+            if (gameOver) return;
+            if (event.key === "a") moving.a = true;
+            if (event.key === "d") moving.d = true;
+            if ((event.key === "w" || event.key === " ") && onGround) {
+                velocityY = jumpStrength;
+            }
+        });
+
+        document.addEventListener("keyup", function(event) {
+            if (gameOver) return;
+            if (event.key === "a") moving.a = false;
+            if (event.key === "d") moving.d = false;
+        });
+
+        // Initialize game
+        window.onload = function() {
+            const bestTime = localStorage.getItem("bestTime") || '0.0';
+            document.getElementById("bestTime").textContent = `best time: ${bestTime}s`;
+            initGame();
+
+            // Main game loop
+            setInterval(() => {
+                if (gameOver) return;
+                moveplayer();
+                updateProjectiles();
+                adjustSpawnRate();
+            }, 5);
+        };
     </script>
-  </body>
+</body>
+
 </html>
