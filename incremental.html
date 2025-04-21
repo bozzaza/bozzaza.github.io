@@ -25,12 +25,13 @@
       }
 
       .incrementbutton {
-        width: 300px;
-        height: 40px;
+        width: 400px;
+        height: 60px;
         display: block;
         margin: auto;
         background-color: rgb(233, 243, 208);
         font-family: verdana;
+        font-size: 20;
       }
 
       .upgradebutton {
@@ -158,7 +159,8 @@
           baseincrement;
         document.getElementById("MultiplierDisplay").innerHTML = multiplier;
         document.getElementById("IncrementDisplay").innerHTML = increment;
-        document.getElementById("Upg1CostDisplay").innerHTML = Upg1Cost;
+        document.getElementById("Upg1CostDisplay").innerHTML =
+          Math.floor(Upg1Cost);
         document.getElementById("Upg2CostDisplay").innerHTML = Upg2Cost;
         Upg1CostChecker();
         Upg2CostChecker();
@@ -166,8 +168,8 @@
 
       function buyUpg1() {
         if (counter >= Upg1Cost) {
-          counter -= Upg1Cost;
-          Upg1Cost = Math.floor(Upg1Cost * 1.1);
+          counter -= Math.floor(Upg1Cost);
+          Upg1Cost = Upg1Cost * 1.1;
           baseincrement += 1;
           updateDisplay();
           saveGame();
