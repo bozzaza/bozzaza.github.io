@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ilovefemboys.gay ft. theinkedlink</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: Arial, sans-serif;
+        animation: flash 0.1s infinite;
+      }
+
+      @keyframes flash {
+        0% {
+          background-color: #ff0000;
+        }
+        10% {
+          background-color: #00ff00;
+        }
+        20% {
+          background-color: #0000ff;
+        }
+        30% {
+          background-color: #ffff00;
+        }
+        40% {
+          background-color: #ff00ff;
+        }
+        50% {
+          background-color: #00ffff;
+        }
+        60% {
+          background-color: #ff9900;
+        }
+        70% {
+          background-color: #9900ff;
+        }
+        80% {
+          background-color: #00ff99;
+        }
+        90% {
+          background-color: #ff0099;
+        }
+        100% {
+          background-color: #99ff00;
+        }
+      }
+
+      .video-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        width: 80vw;
+      }
+
+      video {
+        width: 60vw;
+        height: auto;
+        z-index: 2;
+      }
+
+      .scrolling-column {
+        position: relative;
+        width: 10vw;
+        height: 70vh;
+        overflow: hidden;
+      }
+
+      .scrolling-images {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .scrolling-images img {
+        width: 100%;
+        height: auto;
+        border: 2px solid white;
+        animation: imageFlash 0.1s infinite;
+      }
+
+      @keyframes imageFlash {
+        0% {
+          border-color: #ff0000;
+        }
+        10% {
+          border-color: #00ff00;
+        }
+        20% {
+          border-color: #0000ff;
+        }
+        30% {
+          border-color: #ffff00;
+        }
+        40% {
+          border-color: #ff00ff;
+        }
+        50% {
+          border-color: #00ffff;
+        }
+        60% {
+          border-color: #ff9900;
+        }
+        70% {
+          border-color: #9900ff;
+        }
+        80% {
+          border-color: #00ff99;
+        }
+        90% {
+          border-color: #ff0099;
+        }
+        100% {
+          border-color: #99ff00;
+        }
+      }
+
+      .title {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 5vw;
+        font-weight: bold;
+        text-align: center;
+        z-index: 10;
+        color: white;
+        text-shadow: 0 0 10px black, 0 0 20px black, 0 0 30px black;
+        mix-blend-mode: difference;
+        animation: textFlash 0.05s infinite;
+      }
+
+      @keyframes textFlash {
+        0% {
+          color: #ffffff;
+        }
+        50% {
+          color: #000000;
+        }
+        100% {
+          color: #ffffff;
+        }
+      }
+
+      .flying-image {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        z-index: 5;
+        animation: fly linear infinite;
+      }
+
+      @keyframes fly {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(calc(100vw * var(--tx)), calc(100vh * var(--ty)))
+            rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .scrolling-text {
+        position: fixed;
+        white-space: nowrap;
+        font-size: 2vw;
+        font-weight: bold;
+        color: white;
+        text-shadow: 0 0 5px black;
+        mix-blend-mode: difference;
+        animation: scrollText linear infinite, textColorFlash 0.1s infinite;
+        z-index: 8;
+      }
+
+      @keyframes scrollText {
+        0% {
+          transform: translateX(100vw);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      @keyframes textColorFlash {
+        0% {
+          color: #ff0000;
+        }
+        10% {
+          color: #00ff00;
+        }
+        20% {
+          color: #0000ff;
+        }
+        30% {
+          color: #ffff00;
+        }
+        40% {
+          color: #ff00ff;
+        }
+        50% {
+          color: #00ffff;
+        }
+        60% {
+          color: #ff9900;
+        }
+        70% {
+          color: #9900ff;
+        }
+        80% {
+          color: #00ff99;
+        }
+        90% {
+          color: #ff0099;
+        }
+        100% {
+          color: #99ff00;
+        }
+      }
+
+      #cord {
+        position: fixed;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="video-container">
+      <div class="scrolling-column" id="leftColumn"></div>
+      <video id="mainVideo" autoplay loop>
+        <source src="res/vids/nutt.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="scrolling-column" id="rightColumn"></div>
+    </div>
+
+    <h1 class="title">ilovefemboys.gay<br />ft. theinkedlink</h1>
+
+    <audio id="bgMusic" autoplay loop>
+      <source src="res/sounds/angrybirds.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <script>
+      // Disable right-click context menu
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      });
+
+      // Disable keyboard shortcuts
+      document.addEventListener("keydown", function (e) {
+        if (e.keyCode == 32 || e.keyCode == 75 || e.keyCode == 80) {
+          // Space, K, P keys
+          e.preventDefault();
+        }
+      });
+
+      // Images for scrolling columns and flying images
+      const images = [
+        "https://i.etsystatic.com/36971296/c/529/529/235/235/il/d172ed/6379922199/il_300x300.6379922199_rrkh.jpg",
+        "https://pbs.twimg.com/media/GklBh5aXIAAA0Tv.jpg",
+        "https://makerworld.bblmw.com/makerworld/model/DSM00000000560732/design/2024-07-27_0befed931e5b3.png?x-oss-process=image/resize,w_400/format,webp",
+        "https://pbs.twimg.com/profile_images/1769358702543331328/r8Slg0X6_400x400.jpg",
+        "https://wiki.soyjak.st/images/2/20/Coinslot.png",
+        "https://ilovefemboys.gay/res/solomons/basketball!!!!!.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTir7YsITsVRjbCNwVPyqIf4O1Qntz7zEHguA&s",
+        "https://flagcdn.com/w160/il.png",
+        "https://i.watchpeopledie.tv/images/17249079073856208.webp",
+        "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/AWMWEHTPBUI6VI7MODLUPHMD6A.jpg&w=1800&h=1800",
+      ];
+
+      // Create flying images
+      function createFlyingImages() {
+        for (let i = 0; i < 20; i++) {
+          const img = document.createElement("img");
+          img.src = images[Math.floor(Math.random() * images.length)];
+          img.className = "flying-image";
+          img.style.setProperty("--tx", Math.random() * 2 - 0.5);
+          img.style.setProperty("--ty", Math.random() * 2 - 0.5);
+          img.style.left = Math.random() * 100 + "vw";
+          img.style.top = Math.random() * 100 + "vh";
+          img.style.animationDuration = Math.random() * 2 + 1 + "s";
+
+          document.body.appendChild(img);
+        }
+      }
+
+      // Create scrolling columns
+      function createScrollingColumns() {
+        const leftColumn = document.getElementById("leftColumn");
+        const rightColumn = document.getElementById("rightColumn");
+
+        // Create left column images
+        const leftImages = document.createElement("div");
+        leftImages.className = "scrolling-images";
+        leftImages.style.animation = "scrollDown 20s linear infinite";
+
+        // Create right column images
+        const rightImages = document.createElement("div");
+        rightImages.className = "scrolling-images";
+        rightImages.style.animation = "scrollDown 25s linear infinite";
+
+        // Add images to columns (duplicate to ensure seamless scrolling)
+        for (let i = 0; i < 20; i++) {
+          const leftImg = document.createElement("img");
+          leftImg.src = images[Math.floor(Math.random() * images.length)];
+
+          const rightImg = document.createElement("img");
+          rightImg.src = images[Math.floor(Math.random() * images.length)];
+
+          leftImages.appendChild(leftImg);
+          rightImages.appendChild(rightImg);
+
+          // Clone for seamless looping
+          if (i < 10) {
+            const leftClone = leftImg.cloneNode();
+            const rightClone = rightImg.cloneNode();
+            leftImages.appendChild(leftClone);
+            rightImages.appendChild(rightClone);
+          }
+        }
+
+        leftColumn.appendChild(leftImages);
+        rightColumn.appendChild(rightImages);
+
+        // Add scrollDown animation
+        const style = document.createElement("style");
+        style.textContent = `
+                @keyframes scrollDown {
+                    0% { transform: translateY(-50%); }
+                    100% { transform: translateY(0); }
+                }
+            `;
+        document.head.appendChild(style);
+      }
+
+      // Create scrolling text elements
+      function createScrollingText() {
+        const texts = [
+          "THX 4 GOYSLOP",
+          "THX 4 GOYSLOP",
+          "THX 4 GOYSLOP",
+          "ILOVEFEMBOYS.GAY",
+          "FEATURING THEINKEDLINK",
+          "WELCOME TO THE RICE FIELDS",
+          "COBSON APPROVED",
+          "SOYJAK PARTY",
+          "GOYISH DELIGHTS",
+        ];
+
+        for (let i = 0; i < 5; i++) {
+          const text = document.createElement("div");
+          text.className = "scrolling-text";
+          text.textContent = texts[Math.floor(Math.random() * texts.length)];
+          text.style.top = Math.random() * 80 + 10 + "vh";
+          text.style.animationDuration = Math.random() * 10 + 10 + "s";
+          text.style.animationDelay = Math.random() * 5 + "s";
+          text.style.fontSize = Math.random() * 2 + 1.5 + "vw";
+
+          document.body.appendChild(text);
+        }
+      }
+
+      // Force play video and audio
+      function forcePlayMedia() {
+        const video = document.getElementById("mainVideo");
+        const audio = document.getElementById("bgMusic");
+
+        video.controls = false;
+        video.addEventListener("pause", function () {
+          video.play();
+        });
+
+        audio.volume = 0.5;
+        audio.addEventListener("pause", function () {
+          audio.play();
+        });
+
+        document.addEventListener("click", function () {
+          video.play();
+          audio.play();
+        });
+      }
+
+      window.onload = function () {
+        createFlyingImages();
+        createScrollingColumns();
+        createScrollingText();
+        forcePlayMedia();
+      };
+    </script>
+  </body>
+</html>
