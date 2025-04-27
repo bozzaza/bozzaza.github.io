@@ -229,9 +229,12 @@
         }
       }
 
-      #cord {
-        position: fixed;
-        text-align: center;
+      #chuddy {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -0%);
+        z-index: 100;
       }
     </style>
   </head>
@@ -245,13 +248,13 @@
       <div class="scrolling-column" id="rightColumn"></div>
     </div>
 
-    <h1 class="title">ilovefemboys.gay<br />ft. theinkedlink</h1>
+    <!--<h1 class="title">ilovefemboys.gay<br />ft. theinkedlink</h1>-->
 
     <audio id="bgMusic" autoplay loop>
       <source src="res/sounds/angybirds.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
-
+    <img src="res/sitepics/chuddymusic.gif" id="chuddy" />
     <script>
       // Disable right-click context menu
       document.addEventListener("contextmenu", function (e) {
@@ -278,6 +281,15 @@
         "https://flagcdn.com/w160/il.png",
         "https://i.watchpeopledie.tv/images/17249079073856208.webp",
         "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/AWMWEHTPBUI6VI7MODLUPHMD6A.jpg&w=1800&h=1800",
+        "https://wiki.soyjak.st/images/3/39/Geg_so_much_geg.png",
+        "https://pbs.twimg.com/media/GeP5wf-WcAASZqE.jpg",
+        "https://wiki.soyjak.st/images/6/6a/Swedish-Gem.png",
+        "https://wiki.soyjak.st/images/5/5d/Terry_Davis.jpg",
+        "https://wiki.soyjak.st/images/f/f1/8169_-_SoyBooru.jpg",
+        "https://wiki.soyjak.st/images/1/15/Evilson.jpg",
+        "https://wiki.soyjak.st/images/8/8d/Shitjak12_compressed.jpg",
+        "https://wiki.soyjak.st/images/1/10/Joe_Biden.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQX2NnIb3KAjMjyCvcPeSRP-Vr1DtOVoPGMug&s",
       ];
 
       // Create flying images
@@ -301,18 +313,16 @@
         const leftColumn = document.getElementById("leftColumn");
         const rightColumn = document.getElementById("rightColumn");
 
-        // Create left column images
         const leftImages = document.createElement("div");
         leftImages.className = "scrolling-images";
-        leftImages.style.animation = "scrollDown 20s linear infinite";
+        leftImages.style.animation = "scrollDown 350s linear infinite";
 
-        // Create right column images
         const rightImages = document.createElement("div");
         rightImages.className = "scrolling-images";
-        rightImages.style.animation = "scrollDown 25s linear infinite";
+        rightImages.style.animation = "scrollDown 300s linear infinite";
 
-        // Add images to columns (duplicate to ensure seamless scrolling)
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 400; i++) {
+          // increased to 30 for smoother scroll
           const leftImg = document.createElement("img");
           leftImg.src = images[Math.floor(Math.random() * images.length)];
 
@@ -321,28 +331,22 @@
 
           leftImages.appendChild(leftImg);
           rightImages.appendChild(rightImg);
-
-          // Clone for seamless looping
-          if (i < 10) {
-            const leftClone = leftImg.cloneNode();
-            const rightClone = rightImg.cloneNode();
-            leftImages.appendChild(leftClone);
-            rightImages.appendChild(rightClone);
-          }
         }
 
         leftColumn.appendChild(leftImages);
         rightColumn.appendChild(rightImages);
 
-        // Add scrollDown animation
-        const style = document.createElement("style");
-        style.textContent = `
-                @keyframes scrollDown {
-                    0% { transform: translateY(-50%); }
-                    100% { transform: translateY(0); }
-                }
-            `;
-        document.head.appendChild(style);
+        if (!document.getElementById("scrollDownKeyframes")) {
+          const style = document.createElement("style");
+          style.id = "scrollDownKeyframes";
+          style.textContent = `
+      @keyframes scrollDown {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(0); }
+      }
+    `;
+          document.head.appendChild(style);
+        }
       }
 
       // Create scrolling text elements
@@ -351,12 +355,17 @@
           "THX 4 GOYSLOP",
           "THX 4 GOYSLOP",
           "THX 4 GOYSLOP",
+          "GEROGE FLOYD",
           "ILOVEFEMBOYS.GAY",
-          "FEATURING THEINKEDLINK",
-          "WELCOME TO THE RICE FIELDS",
           "COBSON APPROVED",
           "SOYJAK PARTY",
           "GOYISH DELIGHTS",
+          "O ALGO",
+          "ACK",
+          "SOLOMON HENDERSON <3",
+          "NIGGER",
+          "HWABAG",
+          "GEM!!",
         ];
 
         for (let i = 0; i < 5; i++) {
